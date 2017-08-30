@@ -3,7 +3,7 @@ import {Button} from 'react-bootstrap'
 
 class ActivityButton extends Component {
   render () {
-    let type = this.props.clicked? 'success' : 'primary'
+    let type = this.props.clicked ? 'success' : 'primary'
     let button = <Button bsStyle={type} style={{
       width: '100%'
     }}>{this.props.title}</Button>

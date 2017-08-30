@@ -34,6 +34,7 @@ class App extends Component {
           <div style={{width: '80%', padding: '5px', margin: '5% 5% 0 0', display: 'inline-block', float: 'right'}}>
             <ActivityBody id='breakfast' />
             <ActivityBody id='lunch' />
+            <ActivityBody id='dinner' />
           </div>
         </div>
       </div>
