@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import {Button} from 'react-bootstrap'
+import Scroll from 'react-scroll'
+
+var Link = Scroll.Link
 
 class ActivityButton extends Component {
   render () {
@@ -10,9 +13,9 @@ class ActivityButton extends Component {
 
     return (
       <div>
-        <a href={'#' + this.props.title}>
+        <Link to={this.props.title} smooth={true} duration={300}>
           {button}
-        </a><br /><br />
+        </Link><br /><br />
       </div>
     )
   }

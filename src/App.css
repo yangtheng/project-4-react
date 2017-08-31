@@ -25,7 +25,11 @@
 
 .actBar {
   width: 13%;
-  margin: 5% 1% 0 1%;
+  margin: 0 1%;
   display: inline-block;
   position: fixed;
+}
+
+a {
+  color: black;
 }
