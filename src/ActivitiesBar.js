@@ -9,6 +9,8 @@ class ActivitiesBar extends Component {
     this.state = {
       clicked: [false, false, false]
     }
+
+    this.boundHandleScroll = (e) => this.handleScroll(e)
   }
 
   render () {
@@ -22,11 +24,11 @@ class ActivitiesBar extends Component {
   }
 
   componentDidMount () {
-    window.addEventListener('scroll', (e) => this.handleScroll(e))
+    window.addEventListener('scroll', this.boundHandleScroll)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', (e) => this.handleScroll(e))
+    window.removeEventListener('scroll', this.boundHandleScroll)
   }
 
   handleScroll (e) {
