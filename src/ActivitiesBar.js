@@ -14,13 +14,15 @@ class ActivitiesBar extends Component {
   }
 
   render () {
-    return (
-      <div className='actBar'>
-        <ActivityButton title='breakfast' clicked={this.state.clicked[0]} />
-        <ActivityButton title='lunch' clicked={this.state.clicked[1]} />
-        <ActivityButton title='dinner' clicked={this.state.clicked[2]} />
-      </div>
-    )
+    if (!this.state.clicked.every((elem) => elem === false)) {
+      return (
+        <div className='actBar'>
+          <ActivityButton title='breakfast' clicked={this.state.clicked[0]} />
+          <ActivityButton title='lunch' clicked={this.state.clicked[1]} />
+          <ActivityButton title='dinner' clicked={this.state.clicked[2]} />
+        </div>
+      )
+    } else return null
   }
 
   componentDidMount () {
