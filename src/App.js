@@ -1,60 +1,31 @@
-import React, {Component} from 'react';
-import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
+import React, {Component} from 'react'
 import BlogPage from './BlogPage'
 import Login from './Login'
 import Signup from './Signup'
 import Profile from './Profile'
 import EditBlogPage from './EditBlogPage'
+import Nav from './Nav'
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom'
 import './App.css'
 
 class App extends Component {
   constructor(props) {
     super(props)
-
+    const token = localStorage.getItem('token')
     this.state = {
-      token: props.token,
-      loggedIn: !!props.token
+      token,
+      user: null
     }
   }
+
   render () {
-    let authLink
-    if (!this.state.loggedIn) {
-      authLink = <Link to='/login'>Login</Link>
-    } else {
-      authLink = <a href='#' onClick={() => this.handleLogout()}>Logout</a>
-    }
     return (
       <Router>
         <div>
-          <Navbar fixedTop collapseOnSelect>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <Link to='/'>React-Bootstrap</Link>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-              <Nav>
-                <NavItem>{authLink}</NavItem>
-                <NavItem><Link to='/signup'>Signup</Link></NavItem>
-                <NavItem><Link to='/profile'>Profile</Link></NavItem>
-                <NavItem><Link to='/blogpage'>Sample Blog</Link></NavItem>
-                <NavItem><Link to='/edit-blogpage'>Sample Edit Blog Page</Link></NavItem>
-                <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                  <MenuItem eventKey={3.1}>Action</MenuItem>
-                  <MenuItem eventKey={3.2}>Another action</MenuItem>
-                  <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                  <MenuItem divider />
-                  <MenuItem eventKey={3.4}>Separated link</MenuItem>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
+          <Nav token={this.state.token} handleLogout={this.handleLogout} />
           <div style={{margin: '10vh 0 0 0'}}>
             <Route path='/login' component={
               () => (
@@ -87,10 +58,10 @@ class App extends Component {
     )
   }
 
-  handleLogout() {
+  handleLogout () {
+    localStorage.removeItem('token')
     this.setState({
-      token: null,
-      loggedIn: false
+      token: null
     })
   }
 }

@@ -52,11 +52,12 @@ class Signup extends Component {
         },
         body: JSON.stringify(params)
       })
-      .then(function (res) {
+      .then(res => {
         if (res.status === 201) alert('Successfully created!')
         return res.json()
       })
-      .catch(function (err) { console.log('there is an an error: ', err) })
+      .then(result => console.log(result))
+      .catch(err => console.log('there is an an error: ', err))
   }
 }
 
