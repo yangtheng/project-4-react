@@ -5,7 +5,6 @@ class Login extends Component {
     super()
 
     this.state = {
-      name: '',
       email: '',
       password: ''
     }
@@ -34,13 +33,20 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    console.log(this.state)
-    fetch('/users',
+    const params = {
+      grant_type: 'password',
+      email: this.state.email,
+      password: this.state.password,
+    }
+    fetch('https://project-4-backend.herokuapp.com/oauth/token',
       {
         method: 'POST',
-        body: JSON.stringify(this.state)
+        headers: {
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(params)
       })
-      .then(function (res) { console.log(res) })
+      .then(function (res) { console.log(res.json()) })
       .catch(function (res) { console.log(res) })
   }
 }

@@ -7,7 +7,8 @@ class Signup extends Component {
     this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      password_confirmation: ''
     }
   }
 
@@ -20,6 +21,8 @@ class Signup extends Component {
           <input type='email' value={this.state.email} onChange={(e) => this.handleChange(e, 'email')} /><br />
           <label>Password</label>{' '}
           <input type='password' value={this.state.password} onChange={(e) => this.handleChange(e, 'password')} /><br />
+          <label>Confirm Password</label>{' '}
+          <input type='password' value={this.state.password_confirmation} onChange={(e) => this.handleChange(e, 'password_confirmation')} /><br />
           <input type='submit' value='Submit' />
         </form>
       </div>
@@ -34,14 +37,26 @@ class Signup extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    console.log(this.state)
-    fetch('/users',
+    const params = {
+      user: {
+        email: this.state.email,
+        password: this.state.password,
+        password_confirmation: this.state.password_confirmation
+      }
+    }
+    fetch('https://project-4-backend.herokuapp.com/users.json',
       {
         method: 'POST',
-        body: JSON.stringify(this.state)
+        headers: {
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(params)
       })
-      .then(function (res) { console.log(res) })
-      .catch(function (res) { console.log(res) })
+      .then(function (res) {
+        if (res.status === 201) alert('Successfully created!')
+        return res.json()
+      })
+      .catch(function (err) { console.log('there is an an error: ', err) })
   }
 }
 

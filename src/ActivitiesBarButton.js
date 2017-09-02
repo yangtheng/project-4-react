@@ -6,10 +6,10 @@ var Link = Scroll.Link
 
 class ActivityButton extends Component {
   render () {
-    let type = this.props.clicked ? '1' : '0.5'
+    let opacity = this.props.clicked ? '1' : '0.5'
     let button = <Button bsStyle='primary' style={{
       width: '100%',
-      opacity: type
+      opacity
     }}>{this.props.title}</Button>
 
     return (
