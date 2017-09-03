@@ -35,10 +35,11 @@ a {
   color: black;
 }
 
-
+.coverPhotoDiv {
+  transition: background-color 0.5s;
+  border-radius: 5px;
+}
 .coverPhotoDiv:hover {
   cursor: pointer;
-  border-radius: 5px;
   background-color: rgba(164, 163, 161, 0.5);
-  transition: background-color 0.5s;
 }

@@ -37,10 +37,8 @@ class ActivitiesBar extends Component {
     // TODO: Refactor
     let arr = ['breakfast', 'lunch', 'dinner']
     let ind = arr.findIndex((elem) => document.getElementById(elem).offsetTop - 50 >= e.srcElement.body.scrollTop)
-    let newArr = this.state.clicked.map((clicked, index) => {
-      if (index !== arr.length - 1) return ind - 1 === index
-      else return ind === -1
-    })
+    let newArr = this.state.clicked.map((clicked, index) => index !== arr.length - 1 ? ind - 1 === index : ind === -1)
+
     this.setState({
       clicked: newArr
     })

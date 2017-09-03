@@ -5,7 +5,8 @@ class Profile extends Component {
     super(props)
 
     this.state = {
-      token: props.token
+      token: props.token,
+      itineraries: []
     }
   }
 
