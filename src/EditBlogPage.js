@@ -28,6 +28,11 @@ class EditBlogPage extends Component {
         </Modal.Body>
 
         <Modal.Body>
+          <label>Title</label>
+          <input className='form-control' value={this.state.newLocation} type='text' onChange={(e) => this.handleChange(e, 'newLocation')} />
+        </Modal.Body>
+
+        <Modal.Body>
           <label>Content</label>
           <textarea className='form-control' value={this.state.newContent} rows='10' onChange={(e) => this.handleChange(e, 'newContent')} />
         </Modal.Body>
@@ -53,7 +58,7 @@ class EditBlogPage extends Component {
       // }
       return (
         <div key={index}>
-          <h3>{activity.title}</h3>
+          <h3>{activity.title} @ {activity.location}</h3>
           {/* <p>{activityContent}</p> */}
         </div>
       )
@@ -111,7 +116,8 @@ class EditBlogPage extends Component {
   createActivity () {
     const newActivity = {
       title: this.state.newTitle,
-      content: this.state.newContent
+      content: this.state.newContent,
+      location: this.state.newLocation
     }
     this.setState({
       addingActivity: false,
