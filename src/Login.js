@@ -38,7 +38,7 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password,
     }
-    fetch('https://project-4-backend.herokuapp.com/oauth/token',
+    fetch('http://localhost:3000/oauth/token',
       {
         method: 'POST',
         headers: {

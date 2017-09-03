@@ -44,7 +44,7 @@ class Signup extends Component {
         password_confirmation: this.state.password_confirmation
       }
     }
-    fetch('https://project-4-backend.herokuapp.com/users.json',
+    fetch('http://localhost:3000/users.json',
       {
         method: 'POST',
         headers: {

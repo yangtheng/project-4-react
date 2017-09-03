@@ -2,6 +2,7 @@ import React from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
 import ActivityBody from './ActivityBody'
 import {Button} from 'react-bootstrap'
+import AddActivityForm from './AddActivityForm'
 
 const EditBlogPage = () => (
   <div>
@@ -14,6 +15,7 @@ const EditBlogPage = () => (
       </div>
       <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right'}}>
         This is Activities
+        <AddActivityForm />
       </div>
     </div>
   </div>
