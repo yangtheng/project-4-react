@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
 // import ActivityBody from './ActivityBody'
-import {Button, Modal} from 'react-bootstrap'
+import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
+import './App.css'
 
 class EditBlogPage extends Component {
   constructor () {
@@ -12,7 +13,8 @@ class EditBlogPage extends Component {
       addingActivity: false,
       activities: [],
       newTitle: '',
-      newContent: ''
+      newContent: '',
+      newLocation: ''
     }
   }
   render () {
@@ -28,7 +30,7 @@ class EditBlogPage extends Component {
         </Modal.Body>
 
         <Modal.Body>
-          <label>Title</label>
+          <label>Location</label>
           <input className='form-control' value={this.state.newLocation} type='text' onChange={(e) => this.handleChange(e, 'newLocation')} />
         </Modal.Body>
 
@@ -45,24 +47,26 @@ class EditBlogPage extends Component {
     )
 
     let activities = this.state.activities.map((activity, index) => {
-      // let activityContent
-      // if (activity.content) {
-      //   activityContent = activity.content.split('\n').map((content, index) => {
-      //     return (
-      //       <span key={index}>
-      //         {content}
-      //         <br />
-      //       </span>
-      //     )
-      //   })
-      // }
+      let activityContent
+      if (activity.content) {
+        activityContent = activity.content.split('\n').map((content, index) => {
+          return (
+            <span key={index}>
+              {content}
+              <br />
+            </span>
+          )
+        })
+      }
+      const header = <div><strong>{activity.title} (Location: {activity.location})</strong><Glyphicon glyph='triangle-bottom' style={{fontSize: '25px', float: 'right'}} /></div>
       return (
-        <div key={index}>
-          <h3>{activity.title} @ {activity.location}</h3>
-          {/* <p>{activityContent}</p> */}
-        </div>
+        <Panel style={{margin: '3vh 3vh 0 0'}} bsStyle='info' header={header} key={index} eventKey={index} defaultExpanded>
+          {activityContent}
+          <Button bsStyle='primary' style={{marginTop: '1vh'}}>Edit activity</Button>
+        </Panel>
       )
     })
+
     return (
       <div>
         <CoverPhotoEditPage />
@@ -77,7 +81,9 @@ class EditBlogPage extends Component {
               <h3 style={{display: 'inline'}}>Day {this.state.day}</h3>
               <Button onClick={() => this.openAddActivityWindow()} bsStyle='success' style={{float: 'right', marginRight: '3vh'}}>Add new activity</Button>
             </div>
-            {activities}
+            <PanelGroup accordion>
+              {activities}
+            </PanelGroup>
             {addActivityForm}
           </div>
         </div>
@@ -106,10 +112,9 @@ class EditBlogPage extends Component {
   closeAddActivityWindow () {
     this.setState({
       addingActivity: false,
-      newActivity: {
-        title: '',
-        content: ''
-      }
+      newTitle: '',
+      newContent: '',
+      newLocation: ''
     })
   }
 
@@ -122,10 +127,9 @@ class EditBlogPage extends Component {
     this.setState({
       addingActivity: false,
       activities: this.state.activities.concat(newActivity),
-      newActivity: {
-        title: '',
-        content: ''
-      }
+      newTitle: '',
+      newContent: '',
+      newLocation: ''
     })
   }
 }

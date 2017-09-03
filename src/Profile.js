@@ -10,6 +10,12 @@ class Profile extends Component {
     }
   }
 
+  // componentWillReceiveProps (nextProps) {
+  //   this.setState({
+  //     token: nextProps.token
+  //   })
+  // }
+
   render () {
     return (
       <div>

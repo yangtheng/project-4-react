@@ -10,7 +10,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      token: ''
+      token: this.props.token
     }
 
     this.handleLogin = this.props.handleLogin
@@ -73,9 +73,6 @@ class Login extends Component {
         // console.log(result.access_token)
         localStorage.setItem('token', result.access_token)
         this.handleLogin(result.access_token)
-        this.setState({
-          token: result.access_token
-        })
        })
       .catch(function (res) { console.log(res) })
   }

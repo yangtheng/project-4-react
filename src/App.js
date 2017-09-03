@@ -29,7 +29,7 @@ class App extends Component {
           <div style={{margin: '10vh 0 0 0'}}>
             <Route path='/login' component={
               () => (
-                <Login handleLogin={(token) => this.handleLogin(token)} />
+                <Login handleLogin={(token) => this.handleLogin(token)} token={this.state.token} />
               )
             } />
             <Route path='/signup' component={
@@ -44,7 +44,7 @@ class App extends Component {
             } />
             <Route path='/profile' component={
               () => (
-                <Profile />
+                <Profile token={this.state.token} />
               )
             } />
             <Route path='/edit-blogpage' component={
