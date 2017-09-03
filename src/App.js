@@ -44,7 +44,7 @@ class App extends Component {
             } />
             <Route path='/profile' component={
               () => (
-                <Profile />
+                <Profile token={this.state.token}/>
               )
             } />
             <Route path='/edit-blogpage' component={

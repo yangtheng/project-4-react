@@ -10,6 +10,7 @@ class Profile extends Component {
   } // close constructor
   render () {
     console.log('all itinerary', this.state.itineraries)
+    console.log('token', this.state.token)
     //
     // if (this.state.itineraries.length !== 0) {
     //   var itineraryList = this.state.itineraries.map(function(e, index) {
@@ -35,8 +36,8 @@ class Profile extends Component {
       {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer 4775e26f595b1e090d8e8071bcddbcc4719d5150cce47153e4c3e5599f58f616',
-          // take bearer token from local storage?
+          // 'Authorization': 'Bearer 0fb1c49fb01007db0f9edb4d8e84cb15601d0d5df9ca5b2fc72a37587de72f19',
+          'Authorization': 'Bearer ' + this.state.token,
           'Content-Type': 'application/json'
         }
       } ) // close fetch
