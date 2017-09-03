@@ -9,7 +9,7 @@ class Profile extends Component {
     }
   } // close constructor
   render () {
-    // console.log('all itinerary', this.state.itineraries)
+    console.log('all itinerary', this.state.itineraries)
     //
     // if (this.state.itineraries.length !== 0) {
     //   var itineraryList = this.state.itineraries.map(function(e, index) {
@@ -30,21 +30,21 @@ class Profile extends Component {
     )
   } // close render
 
-  // componentDidMount () {
-  //   return fetch('http://localhost:3000/profile',
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         'Authorization': 'Bearer fb26bfd616c76d10ede999d0d6bab575f03d7dc26c90de01adc501f4381118a3',
-  //         // take bearer token from local storage?
-  //         'Content-Type': 'application/json'
-  //       }
-  //     } ) // close fetch
-  //   .then(function (response) { return response.json() })
-  //   .then((json) => this.setState({allItineraries: json.allItineraries}))
-  //   // .then((json) => console.log(json.allItineraries))
-  //   .catch(function (error) { console.log('error', error) })
-  // }
+  componentDidMount () {
+    return fetch('https://project-4-backend.herokuapp.com/profile',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer 4775e26f595b1e090d8e8071bcddbcc4719d5150cce47153e4c3e5599f58f616',
+          // take bearer token from local storage?
+          'Content-Type': 'application/json'
+        }
+      } ) // close fetch
+    .then(function (response) { return response.json() })
+    // .then((json) => this.setState({itineraries: json.allItineraries}))
+    .then((json) => console.log(json))
+    .catch(function (error) { console.log('error', error) })
+  }
 
 } // close class
 
