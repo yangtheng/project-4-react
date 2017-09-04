@@ -10,6 +10,7 @@ class ItineraryBody extends Component {
       itinerary: props.itinerary
     }
   }
+
   render () {
     return (
       <Panel>
@@ -26,21 +27,28 @@ class ItineraryBody extends Component {
   } // close render
 
   deleteItinerary () {
-    alert('Are you sure you want to delete this itinerary? All activities and photos are not recoverable.')
-
-    fetch('https://project-4-backend.herokuapp.com/profile/' + this.state.itinerary_id,
-      {
-        method: 'DELETE',
-        headers: {
-          'Authorization': 'Bearer ' + this.state.token,
-          'Content-Type': 'application/json'
+    var confirmDelete = window.confirm('Are you sure you want to delete this itinerary? All activities and photos are not recoverable.')
+    if (confirmDelete) {
+      fetch('https://project-4-backend.herokuapp.com/profile/' + this.state.itinerary_id,
+        {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + this.state.token,
+            'Content-Type': 'application/json'
+          }
+        }) // close fetch
+      .then(function (response) { return response.json() })
+      .then(res => {
+        if (res.status === 200) {
+          alert('Successfully deleted!')
+          // this.rerenderAllItineraries()
         }
-      }) // close fetch
-    .then(function (response) { return response.json() })
-    // .then((json) => this.setState({itineraries: json.allItineraries}))
-    .then((json) => console.log(json))
-    .catch(function (error) { console.log('error', error) })
-  }
+        return res.json()
+      })
+      .catch(function (error) { console.log('error', error) })
+    } // close if
+
+  } //close deleteItinerary fxn
 
 } // close class
 

@@ -25,7 +25,7 @@ class Profile extends Component {
       var usertoken = this.state.token
 
       var itineraryList = this.state.itineraries.map(function(e, index) {
-        return <ItineraryBody token={usertoken} itinerary={e}/>
+        return <ItineraryBody token={usertoken} itinerary={e} />
       })
       // console.log('list', itineraryList)
     }
@@ -33,7 +33,7 @@ class Profile extends Component {
     return (
       <div>
         <h1>Profile Page</h1>
-        <AddItineraryForm token={this.state.token} addItinerary={() => this.addItinerary()}/>
+        <AddItineraryForm token={this.state.token} rerenderAllItineraries={() => this.rerenderAllItineraries()}/>
         <h1>Welcome username here</h1>
         {itineraryList}
       </div>
@@ -41,9 +41,22 @@ class Profile extends Component {
     )
   } // close render
 
-  addItinerary () {
-    // fetch()
-    // .then(this.setState({}))
+  // addItinerary () {
+  //   return fetch('https://project-4-backend.herokuapp.com/profile',
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Authorization': 'Bearer ' + this.state.token,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     } ) // close fetch
+  //   .then(function (response) { return response.json() })
+  //   .then((json) => this.setState({itineraries: json.allItineraries}))
+  //   // .then((json) => console.log(json))
+  //   .catch(function (error) { console.log('error', error) })
+  // }
+
+  rerenderAllItineraries () {
     return fetch('https://project-4-backend.herokuapp.com/profile',
       {
         method: 'GET',
@@ -59,12 +72,10 @@ class Profile extends Component {
   }
 
   componentDidMount () {
-    // return fetch('https://project-4-backend.herokuapp.com/profile',
     return fetch('https://project-4-backend.herokuapp.com/profile',
       {
         method: 'GET',
         headers: {
-          // 'Authorization': 'Bearer 0fb1c49fb01007db0f9edb4d8e84cb15601d0d5df9ca5b2fc72a37587de72f19',
           'Authorization': 'Bearer ' + this.state.token,
           'Content-Type': 'application/json'
         }
