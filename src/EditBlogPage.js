@@ -14,7 +14,7 @@ class EditBlogPage extends Component {
 
     this.state = {
       token: props.token,
-      itineraryId: 3,
+      itineraryId: props.id,
       itinerary: '',
       day: 1,
       addingActivity: false,
@@ -193,7 +193,7 @@ class EditBlogPage extends Component {
 
     return (
       <div>
-        <CoverPhotoEditPage title={this.state.itinerary.title} />
+        <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
         <div>
           <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
             {/* <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(1)}>Day 1</Button><br /><br />
@@ -223,30 +223,10 @@ class EditBlogPage extends Component {
   }
 
   componentDidMount () {
-    fetch(`${url}/profile/${this.state.itineraryId}`,
-      {
-        method: 'GET',
-        headers: {
-          "Authorization": 'Bearer ' + this.state.token,
-          "Content-Type": 'application/json'
-        }
-      })
-      .then(res => {
-        if(res.status === 200) return res.json()
-        else throw new Error('Itinerary not found')
-      })
-      .then(result => {
-        console.log(result)
-        this.setState({
-          itinerary: result.itinerary,
-          activities: result.activities,
-          activitiesByDay: result.activities.filter(activity => activity.day === this.state.day)
-        })
-      })
-      .catch(error => console.log(error))
+    this.getItinerary()
   }
 
-  componentWillUpdate () {
+  getItinerary () {
     fetch(`${url}/profile/${this.state.itineraryId}`,
       {
         method: 'GET',
@@ -260,6 +240,7 @@ class EditBlogPage extends Component {
         else throw new Error('Itinerary not found')
       })
       .then(result => {
+        // console.log(result)
         this.setState({
           itinerary: result.itinerary,
           activities: result.activities,
@@ -327,8 +308,8 @@ class EditBlogPage extends Component {
         blurb: this.state.newTitle,
         content: this.state.newContent,
         place: this.state.newLocation,
-        day: this.state.day,
-        photos: this.state.images
+        day: this.state.day
+        // photos: this.state.images
       }
     }
 
@@ -342,10 +323,13 @@ class EditBlogPage extends Component {
         body: JSON.stringify(newActivity)
       })
       .then(res => {
-        if (res.status === 201) return res.json()
+        if (res.status === 200) {
+          this.getItinerary()
+          return res.json()
+        }
       })
       .then(result => {
-        console.log(result)
+        // console.log(result)
       })
 
     this.setState({
@@ -407,6 +391,7 @@ class EditBlogPage extends Component {
       newLocation: '',
       idOfEditedActivity: ''
     })
+    this.getItinerary()
   }
 }
 

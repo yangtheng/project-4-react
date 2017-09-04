@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
+import {Button, Modal} from 'react-bootstrap'
 
 class AddItineraryForm extends Component {
   constructor(props) {

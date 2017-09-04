@@ -2,16 +2,21 @@ import React, {Component} from 'react'
 import {Glyphicon, Modal, Button} from 'react-bootstrap'
 import './App.css'
 
+const url = 'https://project-4-backend.herokuapp.com'
+
 class CoverPhotoEditPage extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
+      token: props.token,
       img: '/sample.jpg',
       newImg: '/sample.jpg',
       editingTitle: false,
       editingImg: false
     }
+
+    this.getItinerary = props.getItinerary
   }
   render () {
     let editTitleWindow = (
@@ -68,8 +73,10 @@ class CoverPhotoEditPage extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      title: nextProps.title,
-      newTitle: nextProps.title
+      itinerary: nextProps.itinerary,
+      title: nextProps.itinerary.title,
+      newTitle: nextProps.itinerary.title,
+      id: nextProps.itinerary.id
     })
   }
 
@@ -112,9 +119,30 @@ class CoverPhotoEditPage extends Component {
   }
 
   saveTitle () {
+    let newItinerary = this.state.itinerary
+    newItinerary.title = this.state.newTitle
+    newItinerary = {
+      data: newItinerary
+    }
+    fetch(`${url}/profile/${this.state.id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      }
+    )
+      .then(res => {
+        if (res.status === 200) {
+          alert('successful!')
+          this.getItinerary()
+        }
+        else console.log(res)
+      })
     this.setState({
-      editingTitle: false,
-      title: this.state.newTitle
+      editingTitle: false
     })
   }
 
