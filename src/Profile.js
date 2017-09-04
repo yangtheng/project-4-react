@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import AddItineraryForm from './AddItineraryForm'
-import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
+import ItineraryBody from './ItineraryBody'
 
 class Profile extends Component {
   constructor (props) {
@@ -18,20 +18,16 @@ class Profile extends Component {
   // }
 
   render () {
-    console.log('all itinerary', this.state.itineraries)
-    console.log('token', this.state.token)
+    // console.log('all itinerary', this.state.itineraries)
+    // console.log('token', this.state.token)
 
     if (this.state.itineraries.length !== 0) {
+      var usertoken = this.state.token
+
       var itineraryList = this.state.itineraries.map(function(e, index) {
-        return <Panel>
-          <h3>Title: {e.title}</h3>
-          <h3>Country: {e.country}</h3>
-          <h3>Days: {e.days}</h3>
-          <h3>BannerUrl: {e.bannerUrl}</h3>
-        </Panel>
-        // <insert component here and pass it each itinerary as props>
+        return <ItineraryBody token={usertoken} itinerary={e}/>
       })
-      console.log('list', itineraryList)
+      // console.log('list', itineraryList)
     }
 
     return (
@@ -52,7 +48,6 @@ class Profile extends Component {
       {
         method: 'GET',
         headers: {
-          // 'Authorization': 'Bearer 0fb1c49fb01007db0f9edb4d8e84cb15601d0d5df9ca5b2fc72a37587de72f19',
           'Authorization': 'Bearer ' + this.state.token,
           'Content-Type': 'application/json'
         }
