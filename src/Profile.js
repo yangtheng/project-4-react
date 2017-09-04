@@ -22,7 +22,12 @@ class Profile extends Component {
 
     if (this.state.itineraries.length !== 0) {
       var itineraryList = this.state.itineraries.map(function(e, index) {
-        return <h3 key={index}>{e.country}</h3>
+        return <div>
+          <h3>Title: {e.title}</h3>
+          <h3>Country: {e.country}</h3>
+          <h3>Days: {e.days}</h3>
+          <h3>BannerUrl: {e.bannerUrl}</h3>
+        </div>
         // <insert component here and pass it each itinerary as props>
       })
       console.log('list', itineraryList)
