@@ -3,12 +3,10 @@ import {Glyphicon, Modal, Button} from 'react-bootstrap'
 import './App.css'
 
 class CoverPhotoEditPage extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {
-      title: 'Bangkok 5D/4N',
-      newTitle: 'Bangkok 5D/4N',
       img: '/sample.jpg',
       newImg: '/sample.jpg',
       editingTitle: false,
@@ -66,6 +64,13 @@ class CoverPhotoEditPage extends Component {
         {editImgWindow}
       </div>
     )
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      title: nextProps.title,
+      newTitle: nextProps.title
+    })
   }
 
   handleTitleChange (e) {

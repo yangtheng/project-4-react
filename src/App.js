@@ -49,7 +49,7 @@ class App extends Component {
             } />
             <Route path='/edit-blogpage' component={
               () => (
-                <EditBlogPage />
+                <EditBlogPage token={this.state.token} />
               )
             } />
           </div>
