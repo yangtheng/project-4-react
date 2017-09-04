@@ -41,21 +41,6 @@ class Profile extends Component {
     )
   } // close render
 
-  // addItinerary () {
-  //   return fetch('https://project-4-backend.herokuapp.com/profile',
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         'Authorization': 'Bearer ' + this.state.token,
-  //         'Content-Type': 'application/json'
-  //       }
-  //     } ) // close fetch
-  //   .then(function (response) { return response.json() })
-  //   .then((json) => this.setState({itineraries: json.allItineraries}))
-  //   // .then((json) => console.log(json))
-  //   .catch(function (error) { console.log('error', error) })
-  // }
-
   renderAllItineraries () {
     return fetch('https://project-4-backend.herokuapp.com/profile',
       {
