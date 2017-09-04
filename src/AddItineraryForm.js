@@ -7,10 +7,12 @@ class AddItineraryForm extends Component {
     this.state = {
       token: props.token,
       title: '',
-      place: '',
+      country: '',
       days: '',
       bannerUrl: ''
     }
+
+    this.addItinerary = this.props.addItinerary
   }
 
   render () {
@@ -21,8 +23,8 @@ class AddItineraryForm extends Component {
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <label>Title</label>{' '}
           <input type='text' value={this.state.title} onChange={(e) => this.handleChange(e, 'title')} /><br />
-          <label>Place</label>{' '}
-          <input type='text' value={this.state.place} onChange={(e) => this.handleChange(e, 'place')} /><br />
+          <label>Country</label>{' '}
+          <input type='text' value={this.state.country} onChange={(e) => this.handleChange(e, 'country')} /><br />
           <label>Number of days</label>{' '}
           <input type='number' value={this.state.days} onChange={(e) => this.handleChange(e, 'days')} /><br />
           <label>Banner image</label>{' '}
@@ -42,9 +44,9 @@ class AddItineraryForm extends Component {
   handleSubmit (e) {
     e.preventDefault()
     const params = {
-      itinerary: {
+      data: {
         title: this.state.title,
-        place: this.state.place,
+        country: this.state.country,
         days: this.state.days,
         bannerUrl: this.state.bannerUrl
       }
@@ -60,7 +62,10 @@ class AddItineraryForm extends Component {
         body: JSON.stringify(params)
       })
       .then(res => {
-        if (res.status === 201) alert('Successfully created!')
+        if (res.status === 200) {
+          alert('Successfully created!')
+          this.addItinerary()
+        }
         return res.json()
       })
       .then(result => console.log(result))

@@ -31,18 +31,35 @@ class Profile extends Component {
     return (
       <div>
         <h1>Profile Page</h1>
-        <AddItineraryForm token={this.state.token}/>
-        <h1>Welcome Dom Phua!</h1>
-        <small>{this.state.token}</small>
+        <AddItineraryForm token={this.state.token} addItinerary={() => this.addItinerary()}/>
+        <h1>Welcome username here</h1>
         {itineraryList}
       </div>
 
     )
   } // close render
 
+  addItinerary () {
+    // fetch()
+    // .then(this.setState({}))
+    return fetch('https://project-4-backend.herokuapp.com/profile',
+      {
+        method: 'GET',
+        headers: {
+          // 'Authorization': 'Bearer 0fb1c49fb01007db0f9edb4d8e84cb15601d0d5df9ca5b2fc72a37587de72f19',
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        }
+      } ) // close fetch
+    .then(function (response) { return response.json() })
+    .then((json) => this.setState({itineraries: json.allItineraries}))
+    // .then((json) => console.log(json))
+    .catch(function (error) { console.log('error', error) })
+  }
+
   componentDidMount () {
     // return fetch('https://project-4-backend.herokuapp.com/profile',
-    return fetch('http://localhost:3000/profile',
+    return fetch('https://project-4-backend.herokuapp.com/profile',
       {
         method: 'GET',
         headers: {
