@@ -22,7 +22,7 @@ class ItineraryBody extends Component {
         <h3>Days: {this.state.itinerary.days}</h3>
         <h3>BannerUrl: {this.state.itinerary.bannerUrl}</h3>
         <Button onClick={() => this.deleteItinerary()} bsStyle='danger' style={{float: 'right', marginRight: '3vh'}}>Delete</Button>
-        <Button onClick={() => this.deleteItinerary()} bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button>
+        <Button bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button>
       </Panel>
 
     ) // close return
