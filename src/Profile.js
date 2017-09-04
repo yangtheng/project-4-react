@@ -25,7 +25,7 @@ class Profile extends Component {
       var usertoken = this.state.token
       var boundRenderAllItineraries = () => this.renderAllItineraries()
       var itineraryList = this.state.itineraries.map((e, index) => {
-        return <ItineraryBody renderAllItineraries={boundRenderAllItineraries} token={usertoken} itinerary={e} />
+        return <ItineraryBody key={index} renderAllItineraries={boundRenderAllItineraries} token={usertoken} itinerary={e} />
       })
       // console.log('list', itineraryList)
     }
