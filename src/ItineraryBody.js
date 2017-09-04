@@ -16,7 +16,6 @@ class ItineraryBody extends Component {
     return (
       <Panel>
         <h3>Itinerary id is: {this.state.itinerary_id}</h3>
-        <small>Token: {this.state.token}</small>
         <h3>Title: {this.state.itinerary.title}</h3>
         <h3>Country: {this.state.itinerary.country}</h3>
         <h3>Days: {this.state.itinerary.days}</h3>
