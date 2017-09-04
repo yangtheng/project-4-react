@@ -25,6 +25,7 @@ class EditBlogPage extends Component {
       newTitle: '',
       newContent: '',
       newLocation: '',
+      newDay: '',
       images: []
     }
   }
@@ -150,6 +151,11 @@ class EditBlogPage extends Component {
         </Modal.Body>
 
         <Modal.Body>
+          <label>Day</label>
+          <input className='form-control' value={this.state.newDay} type='number' onChange={(e) => this.handleChange(e, 'newDay')} />
+        </Modal.Body>
+
+        <Modal.Body>
           <label>Content</label>
           <textarea className='form-control' value={this.state.newContent} rows='10' onChange={(e) => this.handleChange(e, 'newContent')} />
         </Modal.Body>
@@ -179,7 +185,7 @@ class EditBlogPage extends Component {
         <Panel style={{margin: '3vh 3vh 0 0'}} bsStyle='info' header={header} key={index} eventKey={index} defaultExpanded>
           <strong>Location: {activity.place}</strong><br /><br />
           {activityContent}<br /><br />
-          <Button onClick={() => this.editActivity(activity.id)} bsStyle='primary'>Edit activity</Button>
+          <Button onClick={() => this.editActivity(activity.id)} bsStyle='info'>Edit activity</Button>
         </Panel>
       )
     })
@@ -196,12 +202,13 @@ class EditBlogPage extends Component {
         <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
         <div>
           <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
-            {/* <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(1)}>Day 1</Button><br /><br />
-            <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(2)}>Day 2</Button><br /><br />
-            <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(3)}>Day 3</Button><br /><br /> */}
             {dayButtons}
+            <ButtonToolbar>
+              <Button bsStyle='success' style={{width: '70%', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
+              <Button bsStyle='danger' style={{width: '70%'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
+            </ButtonToolbar>
           </div>
-          <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right'}}>
+          <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right', minHeight: '90vh'}}>
             <div>
               <h3 style={{display: 'inline'}}>Day {this.state.day}</h3>
               <div style={{display: 'inline-block', float: 'right', marginRight: '3vh'}}>
@@ -270,6 +277,7 @@ class EditBlogPage extends Component {
       newTitle: filteredActivity[0].blurb,
       newContent: filteredActivity[0].content,
       newLocation: filteredActivity[0].place,
+      newDay: filteredActivity[0].day,
       idOfEditedActivity: id
     })
     this.openWindow('editActivity')
@@ -301,11 +309,39 @@ class EditBlogPage extends Component {
     })
   }
 
+  editDays(action) {
+    const actions = {
+      add: this.state.itinerary.days + 1,
+      remove: this.state.itinerary.days - 1
+    }
+    let newItinerary = this.state.itinerary
+    newItinerary.days = actions[action]
+    newItinerary = {
+      data: newItinerary
+    }
+    fetch(`${url}/profile/${this.state.itineraryId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      }
+    )
+      .then(res => {
+        if (res.status === 200) {
+          this.getItinerary()
+        }
+        else console.log(res)
+      })
+  }
+
   createActivity () {
     const newActivity = {
       itinerary_id: this.state.itineraryId,
       data: {
-        blurb: this.state.newTitle,
+        title: this.state.newTitle,
         content: this.state.newContent,
         place: this.state.newLocation,
         day: this.state.day
@@ -362,10 +398,10 @@ class EditBlogPage extends Component {
       const editedActivity = {
         activity_id: this.state.idOfEditedActivity,
         data: {
-          blurb: this.state.newTitle,
+          title: this.state.newTitle,
           content: this.state.newContent,
           place: this.state.newLocation,
-          day: this.state.day,
+          day: this.state.newDay,
           latitude: '',
           longitude: ''
         }
@@ -389,6 +425,7 @@ class EditBlogPage extends Component {
       newTitle: '',
       newContent: '',
       newLocation: '',
+      newDay: '',
       idOfEditedActivity: ''
     })
     this.getItinerary()
