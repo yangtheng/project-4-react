@@ -44,12 +44,12 @@ class App extends Component {
             } />
             <Route path='/profile' component={
               () => (
-                <Profile token={this.state.token}/>
+                <Profile token={this.state.token} />
               )
             } />
-            <Route path='/edit-blogpage' component={
-              () => (
-                <EditBlogPage token={this.state.token} />
+            <Route path='/edit-blogpage/:id' component={
+              ({match}) => (
+                <EditBlogPage token={this.state.token} id={match.params.id} />
               )
             } />
           </div>

@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
-import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
+import {Button, Panel} from 'react-bootstrap'
+import {
+  Link
+} from 'react-router-dom'
 
 class ItineraryBody extends Component {
   constructor (props) {
@@ -21,7 +24,7 @@ class ItineraryBody extends Component {
         <h3>Days: {this.state.itinerary.days}</h3>
         <h3>BannerUrl: {this.state.itinerary.bannerUrl}</h3>
         <Button onClick={() => this.deleteItinerary()} bsStyle='danger' style={{float: 'right', marginRight: '3vh'}}>Delete</Button>
-        <Button bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button>
+        <Link to={'/edit-blogpage/' + this.state.itinerary_id}><Button bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button></Link>
       </Panel>
 
     ) // close return
