@@ -17,12 +17,10 @@ class ItineraryBody extends Component {
 
   render () {
     return (
-      <Panel>
-        <h3>Itinerary id is: {this.state.itinerary_id}</h3>
+      <Panel className="col-sm-6" style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '30vh', position: 'relative', width: '50%', float: 'left'}}>
         <h3>Title: {this.state.itinerary.title}</h3>
         <h3>Country: {this.state.itinerary.country}</h3>
         <h3>Days: {this.state.itinerary.days}</h3>
-        <h3>BannerUrl: {this.state.itinerary.bannerUrl}</h3>
         <Button onClick={() => this.deleteItinerary()} bsStyle='danger' style={{float: 'right', marginRight: '3vh'}}>Delete</Button>
         <Link to={'/edit-blogpage/' + this.state.itinerary_id}><Button bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button></Link>
       </Panel>
