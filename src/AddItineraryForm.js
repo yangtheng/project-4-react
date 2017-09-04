@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
 
 class AddItineraryForm extends Component {
   constructor(props) {
@@ -6,6 +7,7 @@ class AddItineraryForm extends Component {
 
     this.state = {
       token: props.token,
+      addingItinerary: false,
       title: '',
       country: '',
       days: '',
@@ -15,22 +17,58 @@ class AddItineraryForm extends Component {
     this.addItinerary = this.props.addItinerary
   }
 
+  openAddItineraryWindow () {
+    this.setState({
+      addingItinerary: true
+    })
+  }
+
+  closeAddItineraryWindow () {
+    this.setState({
+      addingItinerary: false,
+      title: '',
+      country: '',
+      days: '',
+      bannerUrl: ''
+    })
+  }
+
+
   render () {
     return (
       <div>
-        <h1>Create a new itinerary</h1>
-        <h3>Token is: {this.state.token}</h3>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <label>Title</label>{' '}
-          <input type='text' value={this.state.title} onChange={(e) => this.handleChange(e, 'title')} /><br />
-          <label>Country</label>{' '}
-          <input type='text' value={this.state.country} onChange={(e) => this.handleChange(e, 'country')} /><br />
-          <label>Number of days</label>{' '}
-          <input type='number' value={this.state.days} onChange={(e) => this.handleChange(e, 'days')} /><br />
-          <label>Banner image</label>{' '}
-          <input type='text' value={this.state.bannerUrl} onChange={(e) => this.handleChange(e, 'bannerUrl')} /><br />
-          <input type='submit' value='Submit' />
-        </form>
+        <Button onClick={() => this.openAddItineraryWindow()} bsStyle='success' style={{float: 'right', marginRight: '3vh'}}>Add new itinerary</Button>
+
+        <Modal show={this.state.addingItinerary} onHide={() => this.closeAddActivityWindow()}>
+          <Modal.Header>
+            <Modal.Title>Add new itinerary</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <label>Title</label>
+            <input className='form-control' value={this.state.title} type='text' onChange={(e) => this.handleChange(e, 'title')} />
+          </Modal.Body>
+
+          <Modal.Body>
+            <label>Country</label>
+            <input className='form-control' value={this.state.country} type='text' onChange={(e) => this.handleChange(e, 'country')} />
+          </Modal.Body>
+
+          <Modal.Body>
+            <label>Number of days</label>
+            <input type="number" className='form-control' value={this.state.days} onChange={(e) => this.handleChange(e, 'days')} />
+          </Modal.Body>
+
+          <Modal.Body>
+            <label>Banner URL</label>
+            <input type="text" className='form-control' value={this.state.bannerUrl} onChange={(e) => this.handleChange(e, 'bannerUrl')} />
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={() => this.closeAddItineraryWindow()}>Cancel</Button>
+            <Button bsStyle='primary' onClick={() => this.handleSubmit()}>Create</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }
@@ -42,7 +80,6 @@ class AddItineraryForm extends Component {
   }
 
   handleSubmit (e) {
-    e.preventDefault()
     const params = {
       data: {
         title: this.state.title,
@@ -52,6 +89,7 @@ class AddItineraryForm extends Component {
       }
     }
     console.log(params)
+
     fetch('https://project-4-backend.herokuapp.com/profile',
       {
         method: 'POST',
@@ -70,6 +108,8 @@ class AddItineraryForm extends Component {
       })
       .then(result => console.log(result))
       .catch(err => console.log('there is an an error: ', err))
+
+    this.setState({addingItinerary: false})
   }
 
 }

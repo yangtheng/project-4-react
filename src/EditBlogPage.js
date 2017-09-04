@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
 // import ActivityBody from './ActivityBody'
 import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
+
 import './App.css'
 
 class EditBlogPage extends Component {
