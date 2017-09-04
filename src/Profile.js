@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import AddItineraryForm from './AddItineraryForm'
+import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
 
 class Profile extends Component {
   constructor (props) {
@@ -22,12 +23,12 @@ class Profile extends Component {
 
     if (this.state.itineraries.length !== 0) {
       var itineraryList = this.state.itineraries.map(function(e, index) {
-        return <div>
+        return <Panel>
           <h3>Title: {e.title}</h3>
           <h3>Country: {e.country}</h3>
           <h3>Days: {e.days}</h3>
           <h3>BannerUrl: {e.bannerUrl}</h3>
-        </div>
+        </Panel>
         // <insert component here and pass it each itinerary as props>
       })
       console.log('list', itineraryList)
