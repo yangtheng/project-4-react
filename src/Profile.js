@@ -18,16 +18,12 @@ class Profile extends Component {
   // }
 
   render () {
-    // console.log('all itinerary', this.state.itineraries)
-    // console.log('token', this.state.token)
-
     if (this.state.itineraries.length !== 0) {
       var usertoken = this.state.token
       var boundRenderAllItineraries = () => this.renderAllItineraries()
       var itineraryList = this.state.itineraries.map((e, index) => {
         return <ItineraryBody key={index} renderAllItineraries={boundRenderAllItineraries} token={usertoken} itinerary={e} />
       })
-      // console.log('list', itineraryList)
     }
 
     return (
