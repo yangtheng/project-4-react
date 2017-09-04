@@ -14,7 +14,7 @@ class AddItineraryForm extends Component {
       bannerUrl: ''
     }
 
-    this.rerenderAllItineraries = this.props.rerenderAllItineraries
+    this.renderAllItineraries = this.props.renderAllItineraries
   }
 
   openAddItineraryWindow () {
@@ -102,7 +102,7 @@ class AddItineraryForm extends Component {
       .then(res => {
         if (res.status === 200) {
           alert('Successfully created!')
-          this.rerenderAllItineraries()
+          this.renderAllItineraries()
         }
         return res.json()
       })

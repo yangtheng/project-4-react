@@ -9,6 +9,7 @@ class ItineraryBody extends Component {
       itinerary_id: props.itinerary.id,
       itinerary: props.itinerary
     }
+    this.renderAllItineraries = props.renderAllItineraries
   }
 
   render () {
@@ -21,6 +22,7 @@ class ItineraryBody extends Component {
         <h3>Days: {this.state.itinerary.days}</h3>
         <h3>BannerUrl: {this.state.itinerary.bannerUrl}</h3>
         <Button onClick={() => this.deleteItinerary()} bsStyle='danger' style={{float: 'right', marginRight: '3vh'}}>Delete</Button>
+        <Button onClick={() => this.deleteItinerary()} bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button>
       </Panel>
 
     ) // close return
@@ -41,7 +43,7 @@ class ItineraryBody extends Component {
       .then(res => {
         if (res.status === 200) {
           alert('Successfully deleted!')
-          // this.rerenderAllItineraries()
+          this.renderAllItineraries()
         }
         return res.json()
       })

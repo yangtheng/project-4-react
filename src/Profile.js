@@ -23,9 +23,9 @@ class Profile extends Component {
 
     if (this.state.itineraries.length !== 0) {
       var usertoken = this.state.token
-
-      var itineraryList = this.state.itineraries.map(function(e, index) {
-        return <ItineraryBody token={usertoken} itinerary={e} />
+      var boundRenderAllItineraries = () => this.renderAllItineraries()
+      var itineraryList = this.state.itineraries.map((e, index) => {
+        return <ItineraryBody renderAllItineraries={boundRenderAllItineraries} token={usertoken} itinerary={e} />
       })
       // console.log('list', itineraryList)
     }
@@ -33,7 +33,7 @@ class Profile extends Component {
     return (
       <div>
         <h1>Profile Page</h1>
-        <AddItineraryForm token={this.state.token} rerenderAllItineraries={() => this.rerenderAllItineraries()}/>
+        <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()}/>
         <h1>Welcome username here</h1>
         {itineraryList}
       </div>
@@ -56,7 +56,7 @@ class Profile extends Component {
   //   .catch(function (error) { console.log('error', error) })
   // }
 
-  rerenderAllItineraries () {
+  renderAllItineraries () {
     return fetch('https://project-4-backend.herokuapp.com/profile',
       {
         method: 'GET',
@@ -67,7 +67,6 @@ class Profile extends Component {
       } ) // close fetch
     .then(function (response) { return response.json() })
     .then((json) => this.setState({itineraries: json.allItineraries}))
-    // .then((json) => console.log(json))
     .catch(function (error) { console.log('error', error) })
   }
 
@@ -82,7 +81,6 @@ class Profile extends Component {
       } ) // close fetch
     .then(function (response) { return response.json() })
     .then((json) => this.setState({itineraries: json.allItineraries}))
-    // .then((json) => console.log(json))
     .catch(function (error) { console.log('error', error) })
   }
 
