@@ -10,19 +10,15 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      token: ''
+      token: this.props.token
     }
+
+    this.handleLogin = this.props.handleLogin
   }
 
   render () {
-    let alert,
-      redirect
+    let redirect
     if (this.state.token) {
-      alert = (
-        <div className='alert alert-success' role='alert'>
-          Login successful!
-        </div>
-      )
       redirect = (
         <Redirect to='/' />
       )
@@ -34,11 +30,11 @@ class Login extends Component {
         <h1>Login</h1>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <div className='form-group'>
-            <label for='exampleInputEmail1'>Email address</label>
+            <label>Email address</label>
             <input type='email' value={this.state.email} onChange={(e) => this.handleChange(e, 'email')} className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Enter email' />
           </div>
           <div className='form-group'>
-            <label for='exampleInputPassword1'>Password</label>
+            <label>Password</label>
             <input type='password' value={this.state.password} onChange={(e) => this.handleChange(e, 'password')} className='form-control' id='exampleInputPassword1' placeholder='Password' />
           </div>
           <button type='submit' className='btn btn-primary'>Submit</button>
@@ -76,9 +72,7 @@ class Login extends Component {
       .then(result => {
         console.log(result.access_token)
         localStorage.setItem('token', result.access_token)
-        this.setState({
-          token: result.access_token
-        })
+        this.handleLogin(result.access_token)
        })
       .catch(function (res) { console.log(res) })
   }

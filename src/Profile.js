@@ -8,7 +8,14 @@ class Profile extends Component {
       token: props.token,
       itineraries: []
     }
-  } // close constructor
+  }
+
+  // componentWillReceiveProps (nextProps) {
+  //   this.setState({
+  //     token: nextProps.token
+  //   })
+  // }
+
   render () {
     console.log('all itinerary', this.state.itineraries)
     console.log('token', this.state.token)

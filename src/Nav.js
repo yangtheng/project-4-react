@@ -15,6 +15,12 @@ class Navigation extends Component {
     this.handleLogout = this.props.handleLogout
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      token: nextProps.token
+    })
+  }
+
   render () {
     let authLink,
       signupLink

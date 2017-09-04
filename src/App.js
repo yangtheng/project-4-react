@@ -25,11 +25,11 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Nav token={this.state.token} handleLogout={this.handleLogout} />
+          <Nav token={this.state.token} handleLogout={() => this.handleLogout()} />
           <div style={{margin: '10vh 0 0 0'}}>
             <Route path='/login' component={
               () => (
-                <Login />
+                <Login handleLogin={(token) => this.handleLogin(token)} token={this.state.token} />
               )
             } />
             <Route path='/signup' component={
@@ -62,6 +62,12 @@ class App extends Component {
     localStorage.removeItem('token')
     this.setState({
       token: null
+    })
+  }
+
+  handleLogin (token) {
+    this.setState({
+      token
     })
   }
 }
