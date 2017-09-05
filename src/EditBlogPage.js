@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
-import {Button, Modal, PanelGroup, Panel, Glyphicon, ButtonToolbar} from 'react-bootstrap'
+import {Button, Modal, PanelGroup, Panel, Glyphicon, ButtonToolbar, ToggleButtonGroup, ToggleButton} from 'react-bootstrap'
 import './App.css'
 import Dropzone from 'react-dropzone'
 import sha1 from 'sha1'
@@ -26,7 +26,8 @@ class EditBlogPage extends Component {
       newContent: '',
       newLocation: '',
       newDay: '',
-      images: []
+      images: [],
+      published: null
     }
   }
 
@@ -213,7 +214,14 @@ class EditBlogPage extends Component {
               <h3 style={{display: 'inline'}}>Day {this.state.day}</h3>
               <div style={{display: 'inline-block', float: 'right', marginRight: '3vh'}}>
                 <ButtonToolbar>
-                  <Button bsStyle='primary'>Publish Itinerary</Button>
+
+                  <ToggleButtonGroup type="radio" name="options" defaultValue={this.state.published}>
+                    <ToggleButton value={false} onClick={()=> this.unpublish()}>
+                      Private
+                    </ToggleButton>
+                    <ToggleButton value={true} onClick={()=> this.publish()}>Published</ToggleButton>
+                  </ToggleButtonGroup>
+
                   <Button onClick={() => this.openWindow('addActivity')} bsStyle='success'>Add new activity</Button>
                 </ButtonToolbar>
               </div>
@@ -251,7 +259,8 @@ class EditBlogPage extends Component {
         this.setState({
           itinerary: result.itinerary,
           activities: result.activities,
-          activitiesByDay: result.activities.filter(activity => activity.day === this.state.day)
+          activitiesByDay: result.activities.filter(activity => activity.day === this.state.day),
+          published: result.itinerary.published
         })
       })
       .catch(error => console.log(error))
@@ -429,6 +438,64 @@ class EditBlogPage extends Component {
       idOfEditedActivity: ''
     })
     this.getItinerary()
+  }
+
+  publish (e) {
+    this.setState({published: true})
+    console.log('after toggle', this.state.published)
+
+    let newItinerary = this.state.itinerary
+    newItinerary.published = this.state.published
+    newItinerary = {
+      data: newItinerary
+    }
+
+    fetch(`${url}/profile/${this.state.itineraryId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          "Authorization": 'Bearer ' + this.state.token,
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      })
+      .then(res => {
+        if(res.status === 200) return res.json()
+        else throw new Error('Itinerary not found')
+      })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.log(error))
+  }
+
+  unpublish (e) {
+    this.setState({published: false})
+    console.log('after toggle', this.state.published)
+
+    let newItinerary = this.state.itinerary
+    newItinerary.published = this.state.published
+    newItinerary = {
+      data: newItinerary
+    }
+
+    fetch(`${url}/profile/${this.state.itineraryId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          "Authorization": 'Bearer ' + this.state.token,
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      })
+      .then(res => {
+        if(res.status === 200) return res.json()
+        else throw new Error('Itinerary not found')
+      })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.log(error))
   }
 }
 

@@ -77,11 +77,9 @@ class AddItineraryForm extends Component {
       data: {
         title: this.state.title,
         country: this.state.country,
-        days: 1,
         bannerUrl: this.state.bannerUrl
       }
     }
-    console.log(params)
 
     fetch('https://project-4-backend.herokuapp.com/profile',
       {
