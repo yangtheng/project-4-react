@@ -14,7 +14,7 @@ class ActivityButton extends Component {
 
     return (
       <div>
-        <Link to={this.props.title} smooth={true} duration={300}>
+        <Link to={this.props.id} smooth={true} duration={300}>
           {button}
         </Link><br /><br />
       </div>

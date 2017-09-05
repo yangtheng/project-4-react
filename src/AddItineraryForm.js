@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Modal, PanelGroup, Panel, Glyphicon} from 'react-bootstrap'
+import {Button, Modal} from 'react-bootstrap'
 
 class AddItineraryForm extends Component {
   constructor(props) {
@@ -10,7 +10,6 @@ class AddItineraryForm extends Component {
       addingItinerary: false,
       title: '',
       country: '',
-      days: '',
       bannerUrl: ''
     }
 
@@ -28,7 +27,6 @@ class AddItineraryForm extends Component {
       addingItinerary: false,
       title: '',
       country: '',
-      days: '',
       bannerUrl: ''
     })
   }
@@ -52,11 +50,6 @@ class AddItineraryForm extends Component {
           <Modal.Body>
             <label>Country</label>
             <input className='form-control' value={this.state.country} type='text' onChange={(e) => this.handleChange(e, 'country')} />
-          </Modal.Body>
-
-          <Modal.Body>
-            <label>Number of days</label>
-            <input type="number" className='form-control' value={this.state.days} onChange={(e) => this.handleChange(e, 'days')} />
           </Modal.Body>
 
           <Modal.Body>
@@ -84,11 +77,9 @@ class AddItineraryForm extends Component {
       data: {
         title: this.state.title,
         country: this.state.country,
-        days: this.state.days,
         bannerUrl: this.state.bannerUrl
       }
     }
-    console.log(params)
 
     fetch('https://project-4-backend.herokuapp.com/profile',
       {

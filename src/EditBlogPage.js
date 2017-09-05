@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
-import {Button, Modal, PanelGroup, Panel, Glyphicon, ButtonToolbar} from 'react-bootstrap'
+import {Button, Modal, PanelGroup, Panel, Glyphicon, ButtonToolbar, ToggleButtonGroup, ToggleButton} from 'react-bootstrap'
 import './App.css'
 
 
@@ -14,7 +14,7 @@ class EditBlogPage extends Component {
 
     this.state = {
       token: props.token,
-      itineraryId: 19,
+      itineraryId: props.id,
       itinerary: '',
       day: 1,
       addingActivity: false,
@@ -25,7 +25,11 @@ class EditBlogPage extends Component {
       newTitle: '',
       newContent: '',
       newLocation: '',
-      images: []
+      newDay: '',
+      images: [],
+      published: null,
+      addingDay: false,
+      removingDay: false
     }
   }
 
@@ -83,6 +87,11 @@ class EditBlogPage extends Component {
         </Modal.Body>
 
         <Modal.Body>
+          <label>Day</label>
+          <input className='form-control' value={this.state.newDay} type='number' onChange={(e) => this.handleChange(e, 'newDay')} />
+        </Modal.Body>
+
+        <Modal.Body>
           <label>Content</label>
           <textarea className='form-control' value={this.state.newContent} rows='10' onChange={(e) => this.handleChange(e, 'newContent')} />
         </Modal.Body>
@@ -107,12 +116,12 @@ class EditBlogPage extends Component {
           )
         })
       }
-      const header = <div><strong>{activity.blurb}</strong><Glyphicon glyph='triangle-bottom' style={{fontSize: '25px', float: 'right'}} /></div>
+      const header = <div><strong>{activity.title}</strong><Glyphicon glyph='triangle-bottom' style={{fontSize: '25px', float: 'right'}} /></div>
       return (
         <Panel style={{margin: '3vh 3vh 0 0'}} bsStyle='info' header={header} key={index} eventKey={index} defaultExpanded>
           <strong>Location: {activity.place}</strong><br /><br />
           {activityContent}<br /><br />
-          <Button onClick={() => this.editActivity(activity.id)} bsStyle='primary'>Edit activity</Button>
+          <Button onClick={() => this.editActivity(activity.id)} bsStyle='info'>Edit activity</Button>
         </Panel>
       )
     })
@@ -124,22 +133,35 @@ class EditBlogPage extends Component {
       dayButtons.push(<span key={j}><Button bsStyle='primary' key={j} style={{width: '100%'}} onClick={() => this.changeDay(j)}>Day {j}</Button><br /><br /></span>)
     }
 
+    // let addDayBtn,
+    //   removeDayBtn
+    // if (this.state.addingDay) addDayBtn = (<Button bsStyle='success' style={{width: '70%', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><i className='fa fa-circle-o-notch fa-spin'>Adding Day</i></Button>)
+    // else addDayBtn = ()
+
     return (
       <div>
-        <CoverPhotoEditPage title={this.state.itinerary.title} />
+        <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
         <div>
           <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
-            {/* <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(1)}>Day 1</Button><br /><br />
-            <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(2)}>Day 2</Button><br /><br />
-            <Button bsStyle='primary' style={{width: '100%'}} onClick={() => this.changeDay(3)}>Day 3</Button><br /><br /> */}
             {dayButtons}
+            <ButtonToolbar>
+              <Button bsStyle='success' style={{width: '70%', minWidth: '120px', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
+              <Button bsStyle='danger' style={{width: '70%', minWidth: '120px'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
+            </ButtonToolbar>
           </div>
-          <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right'}}>
+          <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right', minHeight: '90vh'}}>
             <div>
               <h3 style={{display: 'inline'}}>Day {this.state.day}</h3>
               <div style={{display: 'inline-block', float: 'right', marginRight: '3vh'}}>
                 <ButtonToolbar>
-                  <Button bsStyle='primary'>Publish Itinerary</Button>
+
+                  <ToggleButtonGroup type="radio" name="options" defaultValue={this.state.published}>
+                    <ToggleButton value={false} onClick={()=> this.unpublish()}>
+                      Private
+                    </ToggleButton>
+                    <ToggleButton value={true} onClick={()=> this.publish()}>Published</ToggleButton>
+                  </ToggleButtonGroup>
+
                   <Button onClick={() => this.openWindow('addActivity')} bsStyle='success'>Add new activity</Button>
                 </ButtonToolbar>
               </div>
@@ -156,30 +178,10 @@ class EditBlogPage extends Component {
   }
 
   componentDidMount () {
-    fetch(`${url}/profile/${this.state.itineraryId}`,
-      {
-        method: 'GET',
-        headers: {
-          "Authorization": 'Bearer ' + this.state.token,
-          "Content-Type": 'application/json'
-        }
-      })
-      .then(res => {
-        if(res.status === 200) return res.json()
-        else throw new Error('Itinerary not found')
-      })
-      .then(result => {
-        console.log(result)
-        this.setState({
-          itinerary: result.itinerary,
-          activities: result.activities,
-          activitiesByDay: result.activities.filter(activity => activity.day === this.state.day)
-        })
-      })
-      .catch(error => console.log(error))
+    this.getItinerary()
   }
 
-  componentWillUpdate () {
+  getItinerary () {
     fetch(`${url}/profile/${this.state.itineraryId}`,
       {
         method: 'GET',
@@ -193,10 +195,12 @@ class EditBlogPage extends Component {
         else throw new Error('Itinerary not found')
       })
       .then(result => {
+        // console.log(result)
         this.setState({
           itinerary: result.itinerary,
           activities: result.activities,
-          activitiesByDay: result.activities.filter(activity => activity.day === this.state.day)
+          activitiesByDay: result.activities.filter(activity => activity.day === this.state.day),
+          published: result.itinerary.published
         })
       })
       .catch(error => console.log(error))
@@ -217,11 +221,12 @@ class EditBlogPage extends Component {
 
   editActivity (id) {
     const filteredActivity = this.state.activities.filter(activity => activity.id === id)
-    // console.log(filteredActivity)
+    console.log(filteredActivity)
     this.setState({
-      newTitle: filteredActivity[0].blurb,
+      newTitle: filteredActivity[0].title,
       newContent: filteredActivity[0].content,
       newLocation: filteredActivity[0].place,
+      newDay: filteredActivity[0].day,
       idOfEditedActivity: id
     })
     this.openWindow('editActivity')
@@ -249,19 +254,51 @@ class EditBlogPage extends Component {
       newTitle: '',
       newContent: '',
       newLocation: '',
+      images: [],
       idOfEditedActivity: ''
     })
+  }
+
+  editDays (action) {
+    const currentDays = this.state.itinerary.days
+    const actions = {
+      add: currentDays + 1,
+      remove: currentDays - 1
+    }
+    let newItinerary = this.state.itinerary
+    newItinerary.days = actions[action]
+    newItinerary = {
+      data: newItinerary
+    }
+    fetch(`${url}/profile/${this.state.itineraryId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      }
+    )
+      .then(res => {
+        if (res.status === 200) {
+          this.getItinerary()
+          this.setState({
+            addingDay: false
+          })
+        }
+        else console.log(res)
+      })
   }
 
   createActivity () {
     const newActivity = {
       itinerary_id: this.state.itineraryId,
       data: {
-        blurb: this.state.newTitle,
+        title: this.state.newTitle,
         content: this.state.newContent,
         place: this.state.newLocation,
-        day: this.state.day,
-        // photos: this.state.images
+        day: this.state.day
       }
     }
 
@@ -275,10 +312,43 @@ class EditBlogPage extends Component {
         body: JSON.stringify(newActivity)
       })
       .then(res => {
-        if (res.status === 201) return res.json()
+        if (res.status === 200) {
+          this.getItinerary()
+          return res.json()
+        }
       })
       .then(result => {
-        console.log(result)
+        console.log(result);
+
+        this.state.images.forEach(photo => {
+          const newPhoto = {
+            activity_id: result.createdActivity.id,
+            data: {
+              url: photo
+            }
+          }
+          fetch(`${url}/photo`,
+            {
+              method: 'POST',
+              headers: {
+                "Authorization": 'Bearer ' + this.state.token,
+                "Content-Type": 'application/json'
+              },
+              body: JSON.stringify(newPhoto)
+            }
+          ).then(res => {
+            console.log(res);
+            if (res.status === 200) {
+              this.getItinerary()
+              this.setState({
+                images: []
+              })
+              return res.json()
+            }
+            else alert ('There was an error while uploading ' + photo)
+          })
+          .then(json => console.log(json))
+        })
       })
 
     this.setState({
@@ -306,15 +376,16 @@ class EditBlogPage extends Component {
         .then(res => {
           console.log(res);
           if (res.status === 200) alert('successful!')
+          this.getItinerary()
         })
     } else {
       const editedActivity = {
         activity_id: this.state.idOfEditedActivity,
         data: {
-          blurb: this.state.newTitle,
+          title: this.state.newTitle,
           content: this.state.newContent,
           place: this.state.newLocation,
-          day: this.state.day,
+          day: this.state.newDay,
           latitude: '',
           longitude: ''
         }
@@ -331,6 +402,7 @@ class EditBlogPage extends Component {
         .then(res => {
           console.log(res);
           if (res.status === 200) alert('successful!')
+          this.getItinerary()
         })
     }
     this.setState({
@@ -338,8 +410,67 @@ class EditBlogPage extends Component {
       newTitle: '',
       newContent: '',
       newLocation: '',
+      newDay: '',
       idOfEditedActivity: ''
     })
+  }
+
+  publish (e) {
+    this.setState({published: true})
+    console.log('after toggle', this.state.published)
+
+    let newItinerary = this.state.itinerary
+    newItinerary.published = this.state.published
+    newItinerary = {
+      data: newItinerary
+    }
+
+    fetch(`${url}/profile/${this.state.itineraryId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          "Authorization": 'Bearer ' + this.state.token,
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      })
+      .then(res => {
+        if(res.status === 200) return res.json()
+        else throw new Error('Itinerary not found')
+      })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.log(error))
+  }
+
+  unpublish (e) {
+    this.setState({published: false})
+    console.log('after toggle', this.state.published)
+
+    let newItinerary = this.state.itinerary
+    newItinerary.published = this.state.published
+    newItinerary = {
+      data: newItinerary
+    }
+
+    fetch(`${url}/profile/${this.state.itineraryId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          "Authorization": 'Bearer ' + this.state.token,
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      })
+      .then(res => {
+        if(res.status === 200) return res.json()
+        else throw new Error('Itinerary not found')
+      })
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => console.log(error))
   }
 }
 
