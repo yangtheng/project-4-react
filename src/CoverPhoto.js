@@ -1,5 +1,6 @@
 import React from 'react'
 import {Image} from 'react-bootstrap'
+
 const url = '/sample.jpg'
 
 const CoverPhoto = () => (

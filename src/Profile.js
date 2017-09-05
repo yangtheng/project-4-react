@@ -29,9 +29,11 @@ class Profile extends Component {
     return (
       <div>
         <h1>Profile Page</h1>
-        <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()}/>
+        <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()} />
         <h1>Welcome username here</h1>
-        {itineraryList}
+        <div className='container'>
+          {itineraryList}
+        </div>
       </div>
 
     )

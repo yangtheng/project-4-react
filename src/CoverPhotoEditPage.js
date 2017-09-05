@@ -10,7 +10,8 @@ class CoverPhotoEditPage extends Component {
 
     this.state = {
       token: props.token,
-      img: '/sample.jpg',
+      itinerary: props.itinerary,
+      img: props.itinerary.bannerUrl,
       newImg: '/sample.jpg',
       editingTitle: false,
       editingImg: false
@@ -19,6 +20,9 @@ class CoverPhotoEditPage extends Component {
     this.getItinerary = props.getItinerary
   }
   render () {
+    console.log('bannerUrl', this.state.itinerary.bannerUrl)
+    console.log('this state img', this.state.img)
+
     let editTitleWindow = (
       <Modal show={this.state.editingTitle} onHide={() => this.closeTitleEditWindow()}>
         <Modal.Header>
@@ -54,7 +58,7 @@ class CoverPhotoEditPage extends Component {
     )
 
     return (
-      <div style={{backgroundImage: 'url(' + this.state.img + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
+      <div style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
         <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
           <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '10px', display: 'inline-block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
             <h1 style={{marginLeft: '10px', display: 'inline', color: 'white'}}><strong>{this.state.title}</strong></h1>
