@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
 import {Button, Modal, PanelGroup, Panel, Glyphicon, ButtonToolbar} from 'react-bootstrap'
 import './App.css'
-import Dropzone from 'react-dropzone'
-import sha1 from 'sha1'
-import superagent from 'superagent'
+
+
+import ImageUpload from './ImageUpload'
 
 const url = 'https://project-4-backend.herokuapp.com'
 
@@ -14,7 +14,7 @@ class EditBlogPage extends Component {
 
     this.state = {
       token: props.token,
-      itineraryId: 3,
+      itineraryId: 19,
       itinerary: '',
       day: 1,
       addingActivity: false,
@@ -29,73 +29,8 @@ class EditBlogPage extends Component {
     }
   }
 
-  uploadFile (files) {
-    console.log('uploadFile: ')
-    const image = files[0]
-
-    const cloudName = 'dominikphua'
-
-    const url = 'https://api.cloudinary.com/v1_1/' + cloudName + '/image/upload'
-
-    const timestamp = Date.now()/1000
-
-    const uploadPreset = 'sqspzusi'
-
-    const paramsStr = 'timestamp=' + timestamp + '&upload_preset=' + uploadPreset + 'weRc9kcELrJBhBeqL0Zi6OQhVew'
-
-    const signature = sha1(paramsStr)
-    const params = {
-      'api_key': '881529489275562',
-      'timestamp': timestamp,
-      'upload_preset': uploadPreset,
-      'signature': signature
-    }
-
-    let uploadRequest = superagent.post(url)
-    uploadRequest.attach('file', image)
-
-    Object.keys(params).forEach((key) => {
-      uploadRequest.field(key, params[key])
-    })
-
-    uploadRequest.end((err,resp) => {
-      if (err) {
-        alert(err)
-        return
-      }
-      console.log('UPLOAD COMPLETE: ' + JSON.stringify(resp.body))
-      const uploaded = resp.body
-
-      let updatedImages = Object.assign([], this.state.images)
-      updatedImages.push(uploaded.secure_url)
-
-      this.setState({
-        images: updatedImages
-      })
-    })
-  }
-
-  removeImage(event) {
-    event.preventDefault()
-    console.log('removeImage: '+ event.target.id)
-
-    let updatedImages = Object.assign([], this.state.images)
-    updatedImages.splice(event.target.id, 1)
-
-    this.setState({
-      images: updatedImages
-    })
-  }
 
   render () {
-    const list = this.state.images.map((image, i) => {
-      return (
-        <li key={i}>
-          <img style={{width:72}} src={image} />
-          <br /><a id={i} onClick={this.removeImage.bind(this)} href='#'>Remove</a>
-        </li>
-      )
-    })
 
     let addActivityForm = (
       <Modal show={this.state.addingActivity} onHide={() => this.closeWindow('addActivity')}>
@@ -119,11 +54,9 @@ class EditBlogPage extends Component {
         </Modal.Body>
 
         <Modal.Body>
-          <label>Photo</label>
-          <Dropzone onDrop={this.uploadFile.bind(this)}/>
-          <ol>
-            { list }
-          </ol>
+          <div>
+            <ImageUpload images={[]} />
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
@@ -157,7 +90,7 @@ class EditBlogPage extends Component {
         <Modal.Footer>
           <Button bsStyle='danger' style={{float: 'left'}} onClick={() => this.saveActivity(this.state.idOfEditedActivity, 'delete')}>Delete activity</Button>
           <Button onClick={() => this.closeWindow('editActivity')}>Cancel</Button>
-          <Button bsStyle='primary' onClick={() => this.saveActivity(this.state.idOfEditedActivity)}>Save</Button>
+          <Button bsStyle='primary' onClick={() => this.saveActivity(this.state.idOfEditedActicomponentDidMountvity)}>Save</Button>
         </Modal.Footer>
       </Modal>
     )
@@ -328,7 +261,7 @@ class EditBlogPage extends Component {
         content: this.state.newContent,
         place: this.state.newLocation,
         day: this.state.day,
-        photos: this.state.images
+        // photos: this.state.images
       }
     }
 
