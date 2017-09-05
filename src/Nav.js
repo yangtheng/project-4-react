@@ -20,7 +20,7 @@ class Navigation extends Component {
       signupLink = <NavItem><Link to='/signup'>Signup</Link></NavItem>
     } else if (this.props.token) {
       logoutLink = (
-        <NavDropdown eventKey={3} title={this.props.currentUser} id="basic-nav-dropdown">
+        <NavDropdown eventKey={3} title={this.props.currentUser || 'Loading...'} id="basic-nav-dropdown">
           <MenuItem eventKey={3.1} href='#' onClick={() => this.handleLogout()}>Logout</MenuItem>
         </NavDropdown>
       )
@@ -38,7 +38,7 @@ class Navigation extends Component {
             {loginLink}
             {signupLink}
             <NavItem><Link to='/profile'>Profile</Link></NavItem>
-            <NavItem><Link to='/blogpage'>Sample Blog</Link></NavItem>
+            <NavItem><Link to='/blog/11'>Sample Blog</Link></NavItem>
             {logoutLink}
           </Nav>
         </Navbar.Collapse>

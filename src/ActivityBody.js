@@ -24,14 +24,15 @@ class ActivityBody extends Component {
     }
     return (
       <div id={this.props.activity.id}>
-        <Carousel style={{width: '50%', margin:'0 auto'}}>
+        <Carousel style={{width: '50%', margin: '0 auto'}}>
           {photos}
         </Carousel><br /><br />
-        <p style={{textAlign: 'justify'}}>{activityContent}</p>
+        <div style={{maxWidth: '50vw', margin: '0 auto 3vh auto'}}>
+          <p style={{textAlign: 'justify'}}>{activityContent}</p>
+        </div>
       </div>
     )
   }
 }
-
 
 export default ActivityBody
