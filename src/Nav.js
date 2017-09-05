@@ -8,27 +8,22 @@ class Navigation extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      token: props.token
-    }
-
     this.handleLogout = this.props.handleLogout
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      token: nextProps.token
-    })
-  }
-
   render () {
-    let authLink,
-      signupLink
-    if (!this.state.token) {
-      authLink = <NavItem><Link to='/login'>Login</Link></NavItem>
+    let loginLink,
+      signupLink,
+      logoutLink
+    if (!this.props.token) {
+      loginLink = <NavItem><Link to='/login'>Login</Link></NavItem>
       signupLink = <NavItem><Link to='/signup'>Signup</Link></NavItem>
-    } else if (this.state.token) {
-      authLink = <NavItem><a href='#' onClick={() => this.handleLogout()}>Logout</a></NavItem>
+    } else if (this.props.token) {
+      logoutLink = (
+        <NavDropdown eventKey={3} title={this.props.currentUser} id="basic-nav-dropdown">
+          <MenuItem eventKey={3.1} href='#' onClick={() => this.handleLogout()}>Logout</MenuItem>
+        </NavDropdown>
+      )
     }
     return (
       <Navbar fixedTop collapseOnSelect>
@@ -40,17 +35,11 @@ class Navigation extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            {authLink}
+            {loginLink}
             {signupLink}
             <NavItem><Link to='/profile'>Profile</Link></NavItem>
             <NavItem><Link to='/blogpage'>Sample Blog</Link></NavItem>
-            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Action</MenuItem>
-              <MenuItem eventKey={3.2}>Another action</MenuItem>
-              <MenuItem eventKey={3.3}>Something else here</MenuItem>
-              <MenuItem divider />
-              <MenuItem eventKey={3.4}>Separated link</MenuItem>
-            </NavDropdown>
+            {logoutLink}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
