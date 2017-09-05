@@ -155,7 +155,7 @@ class EditBlogPage extends Component {
               <div style={{display: 'inline-block', float: 'right', marginRight: '3vh'}}>
                 <ButtonToolbar>
 
-                  <ToggleButtonGroup type="radio" name="options" defaultValue={this.state.published}>
+                  <ToggleButtonGroup type="radio" name="options" value={this.state.published}>
                     <ToggleButton value={false} onClick={()=> this.unpublish()}>
                       Private
                     </ToggleButton>
