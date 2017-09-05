@@ -151,6 +151,30 @@ class CoverPhotoEditPage extends Component {
       editingImg: false,
       img: this.state.newImg
     })
+
+    let newItinerary = this.state.itinerary
+    newItinerary.bannerUrl = this.state.newImg
+    newItinerary = {
+      data: newItinerary
+    }
+    fetch(`${url}/profile/${this.state.id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      }
+    )
+      .then(res => {
+        if (res.status === 200) {
+          alert('successful!')
+          this.getItinerary()
+        }
+        else console.log(res)
+      })
+
   }
 }
 
