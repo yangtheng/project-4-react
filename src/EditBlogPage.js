@@ -442,7 +442,7 @@ class EditBlogPage extends Component {
 
   publish (e) {
     this.setState({published: true})
-    console.log('after toggle', this.state.published)
+    // console.log('after toggle', this.state.published)
 
     let newItinerary = this.state.itinerary
     newItinerary.published = this.state.published
@@ -471,7 +471,7 @@ class EditBlogPage extends Component {
 
   unpublish (e) {
     this.setState({published: false})
-    console.log('after toggle', this.state.published)
+    // console.log('after toggle', this.state.published)
 
     let newItinerary = this.state.itinerary
     newItinerary.published = this.state.published
