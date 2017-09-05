@@ -11,7 +11,7 @@ class CoverPhotoEditPage extends Component {
     this.state = {
       token: props.token,
       itinerary: props.itinerary,
-      img: props.itinerary.bannerUrl,
+      // img: props.itinerary.bannerUrl,
       newImg: '/sample.jpg',
       editingTitle: false,
       editingImg: false
@@ -20,9 +20,6 @@ class CoverPhotoEditPage extends Component {
     this.getItinerary = props.getItinerary
   }
   render () {
-    console.log('bannerUrl', this.state.itinerary.bannerUrl)
-    console.log('this state img', this.state.img)
-
     let editTitleWindow = (
       <Modal show={this.state.editingTitle} onHide={() => this.closeTitleEditWindow()}>
         <Modal.Header>
