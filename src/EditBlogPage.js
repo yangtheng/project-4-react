@@ -26,7 +26,9 @@ class EditBlogPage extends Component {
       newContent: '',
       newLocation: '',
       newDay: '',
-      images: []
+      images: [],
+      addingDay: false,
+      removingDay: false
     }
   }
 
@@ -180,7 +182,7 @@ class EditBlogPage extends Component {
           )
         })
       }
-      const header = <div><strong>{activity.blurb}</strong><Glyphicon glyph='triangle-bottom' style={{fontSize: '25px', float: 'right'}} /></div>
+      const header = <div><strong>{activity.title}</strong><Glyphicon glyph='triangle-bottom' style={{fontSize: '25px', float: 'right'}} /></div>
       return (
         <Panel style={{margin: '3vh 3vh 0 0'}} bsStyle='info' header={header} key={index} eventKey={index} defaultExpanded>
           <strong>Location: {activity.place}</strong><br /><br />
@@ -197,6 +199,11 @@ class EditBlogPage extends Component {
       dayButtons.push(<span key={j}><Button bsStyle='primary' key={j} style={{width: '100%'}} onClick={() => this.changeDay(j)}>Day {j}</Button><br /><br /></span>)
     }
 
+    // let addDayBtn,
+    //   removeDayBtn
+    // if (this.state.addingDay) addDayBtn = (<Button bsStyle='success' style={{width: '70%', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><i className='fa fa-circle-o-notch fa-spin'>Adding Day</i></Button>)
+    // else addDayBtn = ()
+
     return (
       <div>
         <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
@@ -204,8 +211,8 @@ class EditBlogPage extends Component {
           <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
             {dayButtons}
             <ButtonToolbar>
-              <Button bsStyle='success' style={{width: '70%', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
-              <Button bsStyle='danger' style={{width: '70%'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
+              <Button bsStyle='success' style={{width: '70%', minWidth: '120px', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
+              <Button bsStyle='danger' style={{width: '70%', minWidth: '120px'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
             </ButtonToolbar>
           </div>
           <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right', minHeight: '90vh'}}>
@@ -247,7 +254,7 @@ class EditBlogPage extends Component {
         else throw new Error('Itinerary not found')
       })
       .then(result => {
-        // console.log(result)
+        console.log(result)
         this.setState({
           itinerary: result.itinerary,
           activities: result.activities,
@@ -274,7 +281,7 @@ class EditBlogPage extends Component {
     const filteredActivity = this.state.activities.filter(activity => activity.id === id)
     // console.log(filteredActivity)
     this.setState({
-      newTitle: filteredActivity[0].blurb,
+      newTitle: filteredActivity[0].title,
       newContent: filteredActivity[0].content,
       newLocation: filteredActivity[0].place,
       newDay: filteredActivity[0].day,
@@ -305,14 +312,16 @@ class EditBlogPage extends Component {
       newTitle: '',
       newContent: '',
       newLocation: '',
+      images: [],
       idOfEditedActivity: ''
     })
   }
 
-  editDays(action) {
+  editDays (action) {
+    const currentDays = this.state.itinerary.days
     const actions = {
-      add: this.state.itinerary.days + 1,
-      remove: this.state.itinerary.days - 1
+      add: currentDays + 1,
+      remove: currentDays - 1
     }
     let newItinerary = this.state.itinerary
     newItinerary.days = actions[action]
@@ -332,6 +341,9 @@ class EditBlogPage extends Component {
       .then(res => {
         if (res.status === 200) {
           this.getItinerary()
+          this.setState({
+            addingDay: false
+          })
         }
         else console.log(res)
       })
@@ -345,7 +357,6 @@ class EditBlogPage extends Component {
         content: this.state.newContent,
         place: this.state.newLocation,
         day: this.state.day
-        // photos: this.state.images
       }
     }
 
@@ -365,7 +376,29 @@ class EditBlogPage extends Component {
         }
       })
       .then(result => {
-        // console.log(result)
+        this.state.images.forEach(photo => {
+          const newPhoto = {
+            activity_id: result.createdActivity.id,
+            data: {
+              url: photo
+            }
+          }
+
+          fetch(`${url}/photo`,
+            {
+              method: 'POST',
+              headers: {
+                "Authorization": 'Bearer ' + this.state.token,
+                "Content-Type": 'application/json'
+              },
+              body: JSON.stringify(newPhoto)
+            }
+          ).then(res => {
+            if (res.status === 200) this.getItinerary()
+            else alert ('There was an error while uploading ' + photo)
+          })
+        })
+
       })
 
     this.setState({
@@ -393,6 +426,7 @@ class EditBlogPage extends Component {
         .then(res => {
           console.log(res);
           if (res.status === 200) alert('successful!')
+          this.getItinerary()
         })
     } else {
       const editedActivity = {
@@ -418,6 +452,7 @@ class EditBlogPage extends Component {
         .then(res => {
           console.log(res);
           if (res.status === 200) alert('successful!')
+          this.getItinerary()
         })
     }
     this.setState({
@@ -426,9 +461,9 @@ class EditBlogPage extends Component {
       newContent: '',
       newLocation: '',
       newDay: '',
+      images: [],
       idOfEditedActivity: ''
     })
-    this.getItinerary()
   }
 }
 
