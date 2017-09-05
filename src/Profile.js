@@ -7,6 +7,7 @@ class Profile extends Component {
     super(props)
     this.state = {
       token: props.token,
+      currentUser: props.currentUser,
       itineraries: []
     }
   }
@@ -30,7 +31,7 @@ class Profile extends Component {
       <div>
         <h1>Profile Page</h1>
         <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()} />
-        <h1>Welcome username here</h1>
+        <h1>Welcome {this.state.currentUser}</h1>
         <div className='container'>
           {itineraryList}
         </div>

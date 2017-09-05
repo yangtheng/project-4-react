@@ -17,7 +17,7 @@ class App extends Component {
     const token = localStorage.getItem('token')
     this.state = {
       token,
-      user: null
+      currentUser: null
     }
   }
 
@@ -25,7 +25,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Nav token={this.state.token} handleLogout={() => this.handleLogout()} />
+          <Nav token={this.state.token} handleLogout={() => this.handleLogout()} currentUser={this.state.currentUser} />
           <div style={{margin: '10vh 0 0 0'}}>
             <Route path='/login' component={
               () => (
@@ -44,7 +44,7 @@ class App extends Component {
             } />
             <Route path='/profile' component={
               () => (
-                <Profile token={this.state.token} />
+                <Profile token={this.state.token} currentUser={this.state.currentUser} />
               )
             } />
             <Route path='/edit-blogpage/:id' component={
@@ -58,10 +58,33 @@ class App extends Component {
     )
   }
 
+  componentDidMount () {
+    this.getUser()
+  }
+
+  getUser () {
+    fetch('https://project-4-backend.herokuapp.com/currentuser',
+    {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.state.token,
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then(res => res.json())
+   .then(json => {
+     console.log(json);
+      this.setState({
+        currentUser: json.current_user_name
+      })
+    })
+  }
+
   handleLogout () {
     localStorage.removeItem('token')
     this.setState({
-      token: null
+      token: null,
+      currentUser: null
     })
   }
 
@@ -69,6 +92,7 @@ class App extends Component {
     this.setState({
       token
     })
+    this.getUser()
   }
 }
 
