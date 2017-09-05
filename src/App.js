@@ -5,6 +5,7 @@ import Signup from './Signup'
 import Profile from './Profile'
 import EditBlogPage from './EditBlogPage'
 import Nav from './Nav'
+import HomePage from './HomePage'
 import {
   BrowserRouter as Router,
   Route
@@ -50,6 +51,11 @@ class App extends Component {
             <Route path='/edit-blogpage/:id' component={
               ({match}) => (
                 <EditBlogPage token={this.state.token} id={match.params.id} />
+              )
+            } />
+            <Route exact path='/' component={
+              () => (
+                <HomePage />
               )
             } />
           </div>
