@@ -262,7 +262,7 @@ class EditBlogPage extends Component {
         else throw new Error('Itinerary not found')
       })
       .then(result => {
-        console.log(result)
+        // console.log(result)
         this.setState({
           itinerary: result.itinerary,
           activities: result.activities,
@@ -288,7 +288,7 @@ class EditBlogPage extends Component {
 
   editActivity (id) {
     const filteredActivity = this.state.activities.filter(activity => activity.id === id)
-    // console.log(filteredActivity)
+    console.log(filteredActivity)
     this.setState({
       newTitle: filteredActivity[0].title,
       newContent: filteredActivity[0].content,
@@ -385,6 +385,8 @@ class EditBlogPage extends Component {
         }
       })
       .then(result => {
+        console.log(result);
+
         this.state.images.forEach(photo => {
           const newPhoto = {
             activity_id: result.createdActivity.id,
@@ -392,7 +394,6 @@ class EditBlogPage extends Component {
               url: photo
             }
           }
-
           fetch(`${url}/photo`,
             {
               method: 'POST',
@@ -403,11 +404,18 @@ class EditBlogPage extends Component {
               body: JSON.stringify(newPhoto)
             }
           ).then(res => {
-            if (res.status === 200) this.getItinerary()
+            console.log(res);
+            if (res.status === 200) {
+              this.getItinerary()
+              this.setState({
+                images: []
+              })
+              return res.json()
+            }
             else alert ('There was an error while uploading ' + photo)
           })
+          .then(json => console.log(json))
         })
-
       })
 
     this.setState({
@@ -470,7 +478,6 @@ class EditBlogPage extends Component {
       newContent: '',
       newLocation: '',
       newDay: '',
-      images: [],
       idOfEditedActivity: ''
     })
   }

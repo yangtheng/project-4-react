@@ -10,7 +10,7 @@ class BlogPage extends Component {
     super(props)
 
     this.state = {
-      itinerary_id: 3,
+      itinerary_id: props.id,
       title: '',
       author: '',
       days: '',

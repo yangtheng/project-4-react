@@ -37,9 +37,9 @@ class App extends Component {
                 <Signup />
               )
             } />
-            <Route path='/blogpage' component={
-              () => (
-                <BlogPage />
+            <Route path='/blog/:id' component={
+              ({match}) => (
+                <BlogPage id={match.params.id} />
               )
             } />
             <Route path='/profile' component={

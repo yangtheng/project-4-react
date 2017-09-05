@@ -20,11 +20,12 @@ class ItineraryBody extends Component {
       <Panel className="col-sm-6" style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '30vh', position: 'relative', width: '50%', float: 'left'}}>
         <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em'}}>Title: {this.state.itinerary.title}</h3>
         <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em'}}>Country: {this.state.itinerary.country}</h3>
-        <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em'}}>Days: {this.state.itinerary.days}</h3>
-        <Button onClick={() => this.deleteItinerary()} bsStyle='danger' style={{float: 'right', marginRight: '3vh'}}>Delete</Button>
-        <Link to={'/edit-blogpage/' + this.state.itinerary_id}><Button bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button></Link>
+        <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em', display: 'inline'}}>Days: {this.state.itinerary.days}</h3>
+        <div>
+          <Button onClick={() => this.deleteItinerary()} bsStyle='danger' style={{float: 'right', marginRight: '3vh'}}>Delete</Button>
+          <Link to={'/edit-blogpage/' + this.state.itinerary_id}><Button bsStyle='info' style={{float: 'right', marginRight: '3vh'}}>Edit this itinerary</Button></Link>
+        </div>
       </Panel>
-
     ) // close return
   } // close render
 
