@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Image} from 'react-bootstrap'
+
 const url = '/sample.jpg'
 
 class CoverPhoto extends Component {
