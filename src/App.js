@@ -8,7 +8,8 @@ import Nav from './Nav'
 import HomePage from './HomePage'
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 import './App.css'
 
@@ -26,6 +27,7 @@ class App extends Component {
     return (
       <Router>
         <div>
+          <Redirect to='/' />
           <Nav token={this.state.token} handleLogout={() => this.handleLogout()} currentUser={this.state.currentUser} />
           <div style={{margin: '9vh 0 0 0'}}>
             <Route path='/login' component={
@@ -65,7 +67,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    this.getUser()
+    if(this.state.token) this.getUser()
   }
 
   getUser () {
