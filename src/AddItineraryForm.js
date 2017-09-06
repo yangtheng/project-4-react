@@ -37,7 +37,7 @@ class AddItineraryForm extends Component {
       <div>
         <Button onClick={() => this.openAddItineraryWindow()} bsStyle='success' style={{float: 'right', marginRight: '3vh'}}>Add new itinerary</Button>
 
-        <Modal show={this.state.addingItinerary} onHide={() => this.closeAddActivityWindow()}>
+        <Modal show={this.state.addingItinerary} onHide={() => this.closeAddItineraryWindow()}>
           <Modal.Header>
             <Modal.Title>Add new itinerary</Modal.Title>
           </Modal.Header>

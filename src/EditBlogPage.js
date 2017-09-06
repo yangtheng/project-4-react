@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import CoverPhotoEditPage from './CoverPhotoEditPage'
 import {Button, Modal, PanelGroup, Panel, Glyphicon, ButtonToolbar, ToggleButtonGroup, ToggleButton} from 'react-bootstrap'
 import './App.css'
-
+import Spinner from './Spinner'
 
 import ImageUpload from './ImageUpload'
 
@@ -29,7 +29,8 @@ class EditBlogPage extends Component {
       images: [],
       published: null,
       addingDay: false,
-      removingDay: false
+      removingDay: false,
+      loading: true
     }
   }
 
@@ -59,7 +60,7 @@ class EditBlogPage extends Component {
 
         <Modal.Body>
           <div>
-            <ImageUpload images={[]} />
+            <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
           </div>
         </Modal.Body>
 
@@ -138,43 +139,55 @@ class EditBlogPage extends Component {
     // if (this.state.addingDay) addDayBtn = (<Button bsStyle='success' style={{width: '70%', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><i className='fa fa-circle-o-notch fa-spin'>Adding Day</i></Button>)
     // else addDayBtn = ()
 
-    return (
-      <div>
-        <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
+    if (this.state.loading) {
+      return (
+        <Spinner loading={this.state.loading} />
+      )
+    } else {
+      return (
         <div>
-          <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
-            {dayButtons}
-            <ButtonToolbar>
-              <Button bsStyle='success' style={{width: '70%', minWidth: '120px', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
-              <Button bsStyle='danger' style={{width: '70%', minWidth: '120px'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
-            </ButtonToolbar>
-          </div>
-          <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right', minHeight: '90vh'}}>
-            <div>
-              <h3 style={{display: 'inline'}}>Day {this.state.day}</h3>
-              <div style={{display: 'inline-block', float: 'right', marginRight: '3vh'}}>
-                <ButtonToolbar>
-
-                  <ToggleButtonGroup type="radio" name="options" value={this.state.published}>
-                    <ToggleButton value={false} onClick={()=> this.unpublish()}>
-                      Private
-                    </ToggleButton>
-                    <ToggleButton value={true} onClick={()=> this.publish()}>Published</ToggleButton>
-                  </ToggleButtonGroup>
-
-                  <Button onClick={() => this.openWindow('addActivity')} bsStyle='success'>Add new activity</Button>
-                </ButtonToolbar>
-              </div>
+          <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
+          <div>
+            <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
+              {dayButtons}
+              <ButtonToolbar>
+                <Button bsStyle='success' style={{width: '70%', minWidth: '120px', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
+                <Button bsStyle='danger' style={{width: '70%', minWidth: '120px'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
+              </ButtonToolbar>
             </div>
-            <PanelGroup accordion>
-              {activities}
-            </PanelGroup>
-            {addActivityForm}
-            {editActivityForm}
+            <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right', minHeight: '90vh'}}>
+              <div>
+                <h3 style={{display: 'inline'}}>Day {this.state.day}</h3>
+                <div style={{display: 'inline-block', float: 'right', marginRight: '3vh'}}>
+                  <ButtonToolbar>
+
+                    <ToggleButtonGroup type="radio" name="options" value={this.state.published}>
+                      <ToggleButton value={false} onClick={()=> this.unpublish()}>
+                        Private
+                      </ToggleButton>
+                      <ToggleButton value={true} onClick={()=> this.publish()}>Published</ToggleButton>
+                    </ToggleButtonGroup>
+
+                    <Button onClick={() => this.openWindow('addActivity')} bsStyle='success'>Add new activity</Button>
+                  </ButtonToolbar>
+                </div>
+              </div>
+              <PanelGroup accordion>
+                {activities}
+              </PanelGroup>
+              {addActivityForm}
+              {editActivityForm}
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
+  }
+
+  updateImage (updatedImages) {
+    this.setState({
+      images: updatedImages
+    })
   }
 
   componentDidMount () {
@@ -195,12 +208,13 @@ class EditBlogPage extends Component {
         else throw new Error('Itinerary not found')
       })
       .then(result => {
-        // console.log(result)
+        console.log(result)
         this.setState({
           itinerary: result.itinerary,
           activities: result.activities,
           activitiesByDay: result.activities.filter(activity => activity.day === this.state.day),
-          published: result.itinerary.published
+          published: result.itinerary.published,
+          loading: false
         })
       })
       .catch(error => console.log(error))
@@ -319,6 +333,7 @@ class EditBlogPage extends Component {
       })
       .then(result => {
         console.log(result);
+        console.log(this.state.images);
 
         this.state.images.forEach(photo => {
           const newPhoto = {

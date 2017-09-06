@@ -4,10 +4,10 @@ import {Carousel} from 'react-bootstrap'
 class ActivityBody extends Component {
   render () {
     let photos = []
-    this.props.photos.forEach(photo => {
+    this.props.photos.forEach((photo, index) => {
       photos.push(
-        <Carousel.Item>
-          <img key={photo.id} width='100%' style={{margin:'0 auto'}} height='50vh' alt="900x500" src={photo.url} />
+        <Carousel.Item key={index}>
+          <img width='100%' style={{margin:'0 auto'}} height='50vh' alt="900x500" src={photo.url} />
         </Carousel.Item>
       )
     })

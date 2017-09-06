@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import AddItineraryForm from './AddItineraryForm'
 import ItineraryBody from './ItineraryBody'
+import Spinner from './Spinner'
 
 class Profile extends Component {
   constructor (props) {
@@ -8,7 +9,8 @@ class Profile extends Component {
     this.state = {
       token: props.token,
       currentUser: props.currentUser,
-      itineraries: []
+      itineraries: [],
+      loading: true
     }
   }
 
@@ -27,17 +29,22 @@ class Profile extends Component {
       })
     }
 
-    return (
-      <div>
-        <h1>Profile Page</h1>
-        <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()} />
-        <h1>Welcome {this.state.currentUser}</h1>
-        <div className='container'>
-          {itineraryList}
+    if (this.state.loading) {
+      return (
+        <Spinner loading={this.state.loading} />
+      )
+    } else {
+      return (
+        <div>
+          <h1>Profile Page</h1>
+          <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()} />
+          <h1>Welcome {this.state.currentUser}</h1>
+          <div className='container'>
+            {itineraryList}
+          </div>
         </div>
-      </div>
-
-    )
+      )
+    }
   } // close render
 
   renderAllItineraries () {
@@ -48,9 +55,12 @@ class Profile extends Component {
           'Authorization': 'Bearer ' + this.state.token,
           'Content-Type': 'application/json'
         }
-      } ) // close fetch
+      }) // close fetch
     .then(function (response) { return response.json() })
-    .then((json) => this.setState({itineraries: json.allItineraries}))
+    .then((json) => this.setState({
+      itineraries: json.allItineraries,
+      loading: false
+    }))
     .catch(function (error) { console.log('error', error) })
   }
 
@@ -64,7 +74,10 @@ class Profile extends Component {
         }
       } ) // close fetch
     .then(function (response) { return response.json() })
-    .then((json) => this.setState({itineraries: json.allItineraries}))
+    .then((json) => this.setState({
+      itineraries: json.allItineraries,
+      loading: false
+    }))
     .catch(function (error) { console.log('error', error) })
   }
 
