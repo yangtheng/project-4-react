@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import CoverPhoto from './CoverPhoto'
 import ActivitiesBar from './ActivitiesBar'
 import ActivityBody from './ActivityBody'
+import Spinner from './Spinner'
 
 const url = 'https://project-4-backend.herokuapp.com'
 
@@ -16,7 +17,8 @@ class BlogPage extends Component {
       days: '',
       photos: [],
       activities: [],
-      itinerary: {}
+      itinerary: {},
+      loading: true
     }
   }
 
@@ -35,17 +37,21 @@ class BlogPage extends Component {
         activityIndex += 1
       })
     }
-    return (
-      <div>
-        <CoverPhoto itinerary={this.state.itinerary} author={this.state.author} />
+    if (this.state.loading) {return (
+      <Spinner loading={this.state.loading} />
+    )} else {
+      return (
         <div>
-          <ActivitiesBar days={this.state.days} activities={this.state.activities} />
-          <div style={{width: '80vw', padding: '5px', margin: '3vh 5% 0 0', display: 'inline-block', float: 'right'}}>
-            {activityBodies}
+          <CoverPhoto itinerary={this.state.itinerary} author={this.state.author} />
+          <div>
+            <ActivitiesBar days={this.state.days} activities={this.state.activities} />
+            <div style={{width: '80vw', padding: '5px', margin: '3vh 5% 0 0', display: 'inline-block', float: 'right'}}>
+              {activityBodies}
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   componentDidMount () {
@@ -69,7 +75,8 @@ class BlogPage extends Component {
         days: json.requestedBlog.days,
         activities: json.activities,
         itinerary: json.requestedBlog,
-        photos: json.photos
+        photos: json.photos,
+        loading: false
       })
     })
   }

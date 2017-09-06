@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button} from 'react-bootstrap'
 import Scroll from 'react-scroll'
 
-var Link = Scroll.Link
+const Link = Scroll.Link
 
 class ActivityButton extends Component {
   render () {

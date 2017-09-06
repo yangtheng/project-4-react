@@ -84,6 +84,7 @@ class App extends Component {
         currentUser: json.current_user_name
       })
     })
+    .catch(err => console.log(err))
   }
 
   handleLogout () {

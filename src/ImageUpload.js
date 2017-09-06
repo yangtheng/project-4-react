@@ -10,6 +10,8 @@ class ImageUpload extends Component {
     this.state = {
       images: props.images
     }
+
+    this.updateImage = props.updateImage
   }
   uploadFile (files) {
     console.log('uploadFile: ')
@@ -47,6 +49,7 @@ class ImageUpload extends Component {
       let updatedImages = Object.assign([], this.state.images)
       updatedImages.push(uploaded.secure_url)
 
+      this.updateImage(updatedImages)
       this.setState({
         images: updatedImages
       })
@@ -60,13 +63,14 @@ class ImageUpload extends Component {
     let updatedImages = Object.assign([], this.state.images)
     updatedImages.splice(event.target.id, 1)
 
+    this.updateImage(updatedImages)
     this.setState({
       images: updatedImages
     })
   }
 
   render () {
-    console.log(this.state.images)
+    // console.log(this.state.images)
     const list = this.state.images.map((image, i) => {
       return (
         <li key={i}>
