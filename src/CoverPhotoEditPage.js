@@ -80,7 +80,7 @@ class CoverPhotoEditPage extends Component {
 
         <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
 
-          <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '50px', display: 'inline-block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
+          <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '0px', display: 'block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
             <h1 style={{marginLeft: '10px', display: 'inline', color: 'white'}}><strong>{this.state.itinerary.title}</strong></h1>
             <Glyphicon glyph='pencil' style={{fontSize: '25px', marginLeft: '3%', color: 'white'}} />
           </div>
