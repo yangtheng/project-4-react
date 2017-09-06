@@ -31,7 +31,7 @@ class Navigation extends Component {
       <Navbar fixedTop collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to='/'>React-Bootstrap</Link>
+            <Link to='/'>Undecided Company Name</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -43,6 +43,7 @@ class Navigation extends Component {
             {signupLink}
             {loginLink}
             {logoutLink}
+            {signupLink}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

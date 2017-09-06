@@ -36,7 +36,7 @@ class AddItineraryForm extends Component {
   render () {
     return (
       <div>
-        <Button onClick={() => this.openAddItineraryWindow()} bsStyle='success' style={{float: 'right', marginRight: '3vh'}}>Add new itinerary</Button>
+        <Button onClick={() => this.openAddItineraryWindow()} bsStyle='success' bsSize='large' block style={{margin: '5vh auto'}}>Add new itinerary</Button>
 
         <Modal show={this.state.addingItinerary} onHide={() => this.closeAddItineraryWindow()}>
           <Modal.Header>
@@ -45,16 +45,16 @@ class AddItineraryForm extends Component {
 
           <Modal.Body>
             <label>Title</label>
-            <input className='form-control' value={this.state.title} type='text' onChange={(e) => this.handleChange(e, 'title')} />
+            <input className='form-control' type='text' onChange={(e) => this.handleChange(e, 'title')} />
           </Modal.Body>
 
           <Modal.Body>
             <label>Country</label>
-            <input className='form-control' value={this.state.country} type='text' onChange={(e) => this.handleChange(e, 'country')} />
+            <input className='form-control' type='text' onChange={(e) => this.handleChange(e, 'country')} />
           </Modal.Body>
 
           <Modal.Body>
-            <label>Banner URL</label>
+            <label>Banner Photo</label>
             <div>
               <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
             </div>
