@@ -39,7 +39,7 @@ Our backend API requires requests to take the following form:
 
 For registering a new user, send a post request in json format to
 
-`'https://project-4-backend.herokuapp.com/users.json'`
+`https://project-4-backend.herokuapp.com/users.json`
 
 Doorkeeper handles authorizations and authentications in the backend and it accepts a JSON request body of the following format:
 
@@ -86,7 +86,6 @@ and will return a JSON object containing requested itineraries/activities/photos
 
 Integrating Cloudinary
 ================================
-`EDIT PLS`
 
 Images can be added to activities by first uploading them to Cloudinary.
 
@@ -95,18 +94,6 @@ Please configure the front end server with your own Cloudinary account details.
 Upon successful upload to the Cloudinary server, the URL of the uploaded photo is returned to the front-end server.
 
 That URL is then used in a post request to the backend API to save a new photo.
-
-Built With
-================================
-* Front-end rendering with React, Bootstrap, Masonry
-
-* Image upload with Cloudinary
-
-* Token based authentication with Doorkeeper
-
-* Back-end API with Ruby on Rails
-
-* API testing with Postman
 
 Bugs / Improvements
 ================================
@@ -121,6 +108,19 @@ Bugs / Improvements
 * A Google Map feature that shows all locations visited during a trip
 
 * Allow users have control over the resulting layout of the published post. Allow resizing/repositioning of images
+
+Built With
+================================
+* Front-end rendering with React, Bootstrap
+
+* Image upload with Cloudinary
+
+* Token based authentication with Doorkeeper
+
+* Back-end API with Ruby on Rails
+
+* API testing with Postman
+
 
 Team
 ================================
