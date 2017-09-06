@@ -17,7 +17,7 @@ class ItineraryBody extends Component {
 
   render () {
     return (
-      <Panel className="col-sm-6" style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '30vh', position: 'relative', width: '50%', float: 'left'}}>
+      <Panel className="col-sm-6" style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '30vh', position: 'relative', width: '50%', float: 'left', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', padding:'0'}}>
         <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em'}}>Title: {this.state.itinerary.title}</h3>
         <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em'}}>Country: {this.state.itinerary.country}</h3>
         <h3 style={{color: 'white', fontWeight: 'bold', textShadow: 'black 0.1em 0.1em 0.2em', display: 'inline'}}>Days: {this.state.itinerary.days}</h3>

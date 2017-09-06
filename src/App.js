@@ -13,7 +13,7 @@ import {
 import './App.css'
 
 class App extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     const token = localStorage.getItem('token')
     this.state = {
@@ -70,21 +70,21 @@ class App extends Component {
 
   getUser () {
     fetch('https://project-4-backend.herokuapp.com/currentuser',
-    {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + this.state.token,
-        'Content-Type': 'application/json'
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        }
       }
-    }
   ).then(res => res.json())
    .then(json => {
-     console.log(json);
-      this.setState({
-        currentUser: json.current_user_name
-      })
-    })
-    .catch(err => console.log(err))
+     console.log(json)
+     this.setState({
+       currentUser: json.current_user_name
+     })
+   })
+   .catch(error => console.log(error))
   }
 
   handleLogout () {
