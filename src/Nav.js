@@ -14,11 +14,13 @@ class Navigation extends Component {
   render () {
     let loginLink,
       signupLink,
-      logoutLink
+      logoutLink,
+      profileLink
     if (!this.props.token) {
       loginLink = <NavItem><Link to='/login'>Login</Link></NavItem>
       signupLink = <NavItem><Link to='/signup'>Signup</Link></NavItem>
     } else if (this.props.token) {
+      profileLink = <NavItem><Link to='/profile'>Profile</Link></NavItem>
       logoutLink = (
         <NavDropdown eventKey={3} title={this.props.currentUser || 'Loading...'} id="basic-nav-dropdown">
           <MenuItem eventKey={3.1} href='#' onClick={() => this.handleLogout()}>Logout</MenuItem>
@@ -35,9 +37,10 @@ class Navigation extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem><Link to='/profile'>Your Itineraries</Link></NavItem>
+            {profileLink}
           </Nav>
           <Nav pullRight>
+            {signupLink}
             {loginLink}
             {logoutLink}
             {signupLink}
