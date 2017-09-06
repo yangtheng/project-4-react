@@ -2,7 +2,7 @@ Project Name
 ================================
 Plan an itinerary for your next holiday, update it with pictures and thoughts when you return, and easily publish it as a blogpost.
 
-Live site:
+Live site: https://nameless-tor-61346.herokuapp.com/
 
 Front-end: https://github.com/yangtheng/project-4-react
 
