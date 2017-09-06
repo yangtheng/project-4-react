@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Glyphicon, Modal, Button} from 'react-bootstrap'
 import './App.css'
+import ImageUpload from './ImageUpload'
 
 const url = 'https://project-4-backend.herokuapp.com'
 
@@ -12,7 +13,7 @@ class CoverPhotoEditPage extends Component {
       token: props.token,
       itinerary: props.itinerary,
       // img: props.itinerary.bannerUrl,
-      newImg: '/sample.jpg',
+      images: [],
       editingTitle: false,
       editingImg: false
     }
@@ -44,7 +45,9 @@ class CoverPhotoEditPage extends Component {
         </Modal.Header>
 
         <Modal.Body>
-          <input className='form-control' value={this.state.newImg} type='text' onChange={(e) => this.handleImgChange(e)} />
+          <div>
+            <ImageUpload images={this.state.images} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
@@ -70,6 +73,12 @@ class CoverPhotoEditPage extends Component {
         {editImgWindow}
       </div>
     )
+  }
+
+  updateImage (updatedImages) {
+    this.setState({
+      images: updatedImages
+    })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -149,16 +158,16 @@ class CoverPhotoEditPage extends Component {
 
   saveImg () {
     this.setState({
-      editingImg: false,
-      img: this.state.newImg
+      editingImg: false
+      // img: this.state.newImg[0]
     })
 
     let newItinerary = this.state.itinerary
-    newItinerary.bannerUrl = this.state.newImg
+    newItinerary.bannerUrl = this.state.images[0]
     newItinerary = {
       data: newItinerary
     }
-    fetch(`${url}/profile/${this.state.id}`,
+    fetch(`${url}/profile/${this.state.itinerary.id}`,
       {
         method: 'PATCH',
         headers: {

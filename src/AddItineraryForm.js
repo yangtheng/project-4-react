@@ -56,7 +56,7 @@ class AddItineraryForm extends Component {
           <Modal.Body>
             <label>Banner URL</label>
             <div>
-              <ImageUpload images={[]} />
+              <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
             </div>
           </Modal.Body>
 
@@ -67,6 +67,12 @@ class AddItineraryForm extends Component {
         </Modal>
       </div>
     )
+  }
+
+  updateImage (updatedImages) {
+    this.setState({
+      images: updatedImages
+    })
   }
 
   handleChange (e, field) {
@@ -80,7 +86,7 @@ class AddItineraryForm extends Component {
       data: {
         title: this.state.title,
         country: this.state.country,
-        bannerUrl: this.state.images
+        bannerUrl: this.state.images[0]
       }
     }
 
