@@ -54,7 +54,7 @@ class AddItineraryForm extends Component {
           </Modal.Body>
 
           <Modal.Body>
-            <label>Banner URL</label>
+            <label>Banner Photo</label>
             <div>
               <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
             </div>

@@ -29,19 +29,18 @@ class Navigation extends Component {
       <Navbar fixedTop collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to='/'>React-Bootstrap</Link>
+            <Link to='/'>Undecided Company Name</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            {signupLink}
-            <NavItem><Link to='/profile'>Profile</Link></NavItem>
-            <NavItem><Link to='/blog/11'>Sample Blog</Link></NavItem>
+            <NavItem><Link to='/profile'>Your Itineraries</Link></NavItem>
           </Nav>
           <Nav pullRight>
             {loginLink}
             {logoutLink}
+            {signupLink}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
