@@ -45,12 +45,12 @@ class AddItineraryForm extends Component {
 
           <Modal.Body>
             <label>Title</label>
-            <input className='form-control' value={this.state.title} type='text' onChange={(e) => this.handleChange(e, 'title')} />
+            <input className='form-control' type='text' onChange={(e) => this.handleChange(e, 'title')} />
           </Modal.Body>
 
           <Modal.Body>
             <label>Country</label>
-            <input className='form-control' value={this.state.country} type='text' onChange={(e) => this.handleChange(e, 'country')} />
+            <input className='form-control' type='text' onChange={(e) => this.handleChange(e, 'country')} />
           </Modal.Body>
 
           <Modal.Body>
