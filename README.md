@@ -74,7 +74,7 @@ Subsequent calls to authenticable endpoints require
     "Authorization": 'Bearer ' + <token string>
   },
   body: JSON.stringify({
-      id: <user/itinerary/activity/photo id>
+      <model>_id: <user/itinerary/activity/photo id>
       data: {
         <key>: <value>
       }
@@ -82,6 +82,19 @@ Subsequent calls to authenticable endpoints require
     })
 })
 ```
+and will return a JSON object containing requested itineraries/activities/photos depending on the endpoint called.
+
+Integrating Cloudinary
+================================
+`EDIT PLS`
+
+Images can be added to activities by first uploading them to Cloudinary.
+
+Please configure the front end server with your own Cloudinary account details.
+
+Upon successful upload to the Cloudinary server, the URL of the uploaded photo is returned to the front-end server.
+
+That URL is then used in a post request to the backend API to save a new photo.
 
 Built With
 ================================
