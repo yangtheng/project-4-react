@@ -13,13 +13,13 @@ class ActivitiesBar extends Component {
     this.boundHandleScroll = (e) => this.handleScroll(e)
   }
 
-  componentWillReceiveProps (nextProps) {
-    const newClicked = nextProps.activities.map(activity => false)
-
-    this.setState({
-      clicked: newClicked
-    })
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   const newClicked = nextProps.activities.map(activity => false)
+  //
+  //   this.setState({
+  //     clicked: newClicked
+  //   })
+  // }
 
   render () {
     let activityButtons = [],
@@ -53,7 +53,8 @@ class ActivitiesBar extends Component {
     // TODO: Refactor
     let arr = this.props.activities.sort((a, b) => a.day - b.day).map(activity => activity.id.toString())
     let ind = arr.findIndex((elem) => document.getElementById(elem).offsetTop - 50 >= e.srcElement.body.scrollTop)
-    let newArr = this.state.clicked.map((clicked, index) => index !== arr.length - 1 ? ind - 1 === index : ind === -1)
+    let newArr = arr.map((clicked, index) => index !== arr.length - 1 ? ind - 1 === index : ind === -1)
+    console.log(newArr);
 
     this.setState({
       clicked: newArr

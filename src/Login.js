@@ -70,7 +70,6 @@ class Login extends Component {
         else throw new Error('error')
       })
       .then(result => {
-        console.log(result.access_token)
         localStorage.setItem('token', result.access_token)
         this.handleLogin(result.access_token)
        })
