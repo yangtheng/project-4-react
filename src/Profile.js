@@ -15,12 +15,6 @@ class Profile extends Component {
     }
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   this.setState({
-  //     token: nextProps.token
-  //   })
-  // }
-
   render () {
     if (this.state.itineraries.length !== 0) {
       var usertoken = this.state.token
