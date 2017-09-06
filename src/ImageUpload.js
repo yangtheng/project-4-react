@@ -70,7 +70,6 @@ class ImageUpload extends Component {
   }
 
   render () {
-    // console.log(this.state.images)
     const list = this.state.images.map((image, i) => {
       return (
         <li key={i}>

@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import Masonry from 'react-masonry-component'
+import {
+  Link
+} from 'react-router-dom'
 
 const masonryOptions = {
   itemSelector: '.grid-item',
@@ -9,7 +12,13 @@ const masonryOptions = {
 class Gallery extends Component {
   render() {
     console.log(this.props.images)
-    const pics = this.props.images.map((child, i) => <img className='grid-item' src={child.bannerUrl} key={i} />)
+    const pics = this.props.images.map((child, i) => {
+      var url = 'https://project-4-backend.herokuapp.com/blog/' + child.id
+      var id = child.id
+      return(
+        <Link to={url}><img className='grid-item' src={child.bannerUrl} key={i} /></Link>
+      )
+    })
     return (
       <Masonry options={masonryOptions}>
         { pics }
