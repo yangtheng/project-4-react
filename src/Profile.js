@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import AddItineraryForm from './AddItineraryForm'
 import ItineraryBody from './ItineraryBody'
+import Spinner from './Spinner'
 import {Panel} from 'react-bootstrap'
 
 class Profile extends Component {
@@ -9,7 +10,8 @@ class Profile extends Component {
     this.state = {
       token: props.token,
       currentUser: props.currentUser,
-      itineraries: []
+      itineraries: [],
+      loading: true
     }
   }
 
@@ -27,8 +29,12 @@ class Profile extends Component {
         return <ItineraryBody key={e.id} renderAllItineraries={boundRenderAllItineraries} token={usertoken} itinerary={e} />
       })
     }
-
-    return (
+      if (this.state.loading) {
+        return (
+          <Spinner loading={this.state.loading} />
+        )
+      } else {
+        return (
       <div>
         <div className='container' style={{marginTop: '10vh'}}>
             <Panel className="col-sm-6" style={{ height: '30vh', position: 'relative', width: '49%', float: 'left', padding:'0', textAlign:'center', marginRight: '1%'}}>
@@ -38,8 +44,8 @@ class Profile extends Component {
           {itineraryList}
         </div>
       </div>
-
-    )
+      )
+    }
   } // close render
 
   renderAllItineraries () {
@@ -50,9 +56,12 @@ class Profile extends Component {
           'Authorization': 'Bearer ' + this.state.token,
           'Content-Type': 'application/json'
         }
-      } ) // close fetch
+      }) // close fetch
     .then(function (response) { return response.json() })
-    .then((json) => this.setState({itineraries: json.allItineraries}))
+    .then((json) => this.setState({
+      itineraries: json.allItineraries,
+      loading: false
+    }))
     .catch(function (error) { console.log('error', error) })
   }
 
@@ -66,7 +75,10 @@ class Profile extends Component {
         }
       } ) // close fetch
     .then(function (response) { return response.json() })
-    .then((json) => this.setState({itineraries: json.allItineraries}))
+    .then((json) => this.setState({
+      itineraries: json.allItineraries,
+      loading: false
+    }))
     .catch(function (error) { console.log('error', error) })
   }
 

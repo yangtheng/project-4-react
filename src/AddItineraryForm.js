@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Modal} from 'react-bootstrap'
+import ImageUpload from './ImageUpload'
 
 class AddItineraryForm extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class AddItineraryForm extends Component {
       addingItinerary: false,
       title: '',
       country: '',
-      bannerUrl: ''
+      images: []
     }
 
     this.renderAllItineraries = this.props.renderAllItineraries
@@ -27,7 +28,7 @@ class AddItineraryForm extends Component {
       addingItinerary: false,
       title: '',
       country: '',
-      bannerUrl: ''
+      images: []
     })
   }
 
@@ -54,7 +55,9 @@ class AddItineraryForm extends Component {
 
           <Modal.Body>
             <label>Banner URL</label>
-            <input type="text" className='form-control' value={this.state.bannerUrl} onChange={(e) => this.handleChange(e, 'bannerUrl')} />
+            <div>
+              <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
+            </div>
           </Modal.Body>
 
           <Modal.Footer>
@@ -64,6 +67,12 @@ class AddItineraryForm extends Component {
         </Modal>
       </div>
     )
+  }
+
+  updateImage (updatedImages) {
+    this.setState({
+      images: updatedImages
+    })
   }
 
   handleChange (e, field) {
@@ -77,7 +86,7 @@ class AddItineraryForm extends Component {
       data: {
         title: this.state.title,
         country: this.state.country,
-        bannerUrl: this.state.bannerUrl
+        bannerUrl: this.state.images[0]
       }
     }
 

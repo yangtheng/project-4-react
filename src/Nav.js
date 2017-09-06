@@ -35,10 +35,12 @@ class Navigation extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            {loginLink}
             {signupLink}
             <NavItem><Link to='/profile'>Profile</Link></NavItem>
             <NavItem><Link to='/blog/11'>Sample Blog</Link></NavItem>
+          </Nav>
+          <Nav pullRight>
+            {loginLink}
             {logoutLink}
           </Nav>
         </Navbar.Collapse>
