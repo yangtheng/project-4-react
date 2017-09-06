@@ -16,6 +16,7 @@ class EditBlogPage extends Component {
       token: props.token,
       itineraryId: props.id,
       itinerary: '',
+      newItineraryDays: '',
       day: 1,
       addingActivity: false,
       editingActivity: false,
@@ -60,7 +61,7 @@ class EditBlogPage extends Component {
 
         <Modal.Body>
           <div>
-            <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
+            <ImageUpload images={this.state.images} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
           </div>
         </Modal.Body>
 
@@ -97,10 +98,16 @@ class EditBlogPage extends Component {
           <textarea className='form-control' value={this.state.newContent} rows='10' onChange={(e) => this.handleChange(e, 'newContent')} />
         </Modal.Body>
 
+        <Modal.Body>
+          <div>
+            <ImageUpload token={this.props.token} id={this.state.idOfEditedActivity} images={this.state.images || []} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
+          </div>
+        </Modal.Body>
+
         <Modal.Footer>
           <Button bsStyle='danger' style={{float: 'left'}} onClick={() => this.saveActivity(this.state.idOfEditedActivity, 'delete')}>Delete activity</Button>
           <Button onClick={() => this.closeWindow('editActivity')}>Cancel</Button>
-          <Button bsStyle='primary' onClick={() => this.saveActivity(this.state.idOfEditedActicomponentDidMountvity)}>Save</Button>
+          <Button bsStyle='primary' onClick={() => this.saveActivity(this.state.idOfEditedActivity, 'save')}>Save</Button>
         </Modal.Footer>
       </Modal>
     )
@@ -129,15 +136,10 @@ class EditBlogPage extends Component {
 
     let dayButtons = []
 
-    for (var i = 1; i <= this.state.itinerary.days; i++) {
+    for (var i = 1; i <= this.state.newItineraryDays; i++) {
       let j = i
       dayButtons.push(<span key={j}><Button bsStyle='primary' key={j} style={{width: '100%'}} onClick={() => this.changeDay(j)}>Day {j}</Button><br /><br /></span>)
     }
-
-    // let addDayBtn,
-    //   removeDayBtn
-    // if (this.state.addingDay) addDayBtn = (<Button bsStyle='success' style={{width: '70%', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><i className='fa fa-circle-o-notch fa-spin'>Adding Day</i></Button>)
-    // else addDayBtn = ()
 
     if (this.state.loading) {
       return (
@@ -151,8 +153,8 @@ class EditBlogPage extends Component {
             <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
               {dayButtons}
               <ButtonToolbar>
-                <Button bsStyle='success' style={{width: '70%', minWidth: '120px', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px'}} glyph='plus' />New Day</Button>
-                <Button bsStyle='danger' style={{width: '70%', minWidth: '120px'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%'}} glyph='minus' />Remove Day</Button>
+                <Button bsStyle='success' disabled={this.state.addingDay} style={{width: '70%', minWidth: '120px', marginBottom: '1vh'}} onClick={() => this.editDays('add')}><Glyphicon style={{float: 'left', fontSize: '20px', display: this.state.addingDay ? 'none' : ''}} glyph='plus' />{this.state.addingDay ? 'Adding Day...' : 'New Day'}</Button>
+                <Button bsStyle='danger' disabled={this.state.removingDay} style={{width: '70%', minWidth: '120px'}} onClick={() => this.editDays('remove')}><Glyphicon style={{float: 'left', fontSize: '20px', margin: '0 2% 0 -2%', display: this.state.removingDay ? 'none' : ''}} glyph='minus' />{this.state.removingDay ? 'Removing Day...' : 'Remove Day'}</Button>
               </ButtonToolbar>
             </div>
             <div style={{width: '80vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right', minHeight: '90vh'}}>
@@ -211,10 +213,14 @@ class EditBlogPage extends Component {
         console.log(result)
         this.setState({
           itinerary: result.itinerary,
-          activities: result.activities,
+          activities: result.activities.sort((a, b) => a.created_at > b.created_at),
           activitiesByDay: result.activities.filter(activity => activity.day === this.state.day),
           published: result.itinerary.published,
-          loading: false
+          oldImages: result.photos,
+          loading: false,
+          newItineraryDays: result.itinerary.days,
+          addingDay: false,
+          removingDay: false
         })
       })
       .catch(error => console.log(error))
@@ -235,12 +241,18 @@ class EditBlogPage extends Component {
 
   editActivity (id) {
     const filteredActivity = this.state.activities.filter(activity => activity.id === id)
-    console.log(filteredActivity)
+    const photos =  this.state.oldImages[this.state.oldImages.findIndex(photo => {
+      if (photo[0]) {
+        return photo[0].activity_id === id
+      } else return false
+    })]
+
     this.setState({
       newTitle: filteredActivity[0].title,
       newContent: filteredActivity[0].content,
       newLocation: filteredActivity[0].place,
       newDay: filteredActivity[0].day,
+      images: photos,
       idOfEditedActivity: id
     })
     this.openWindow('editActivity')
@@ -271,16 +283,21 @@ class EditBlogPage extends Component {
       images: [],
       idOfEditedActivity: ''
     })
+    this.getItinerary()
   }
 
   editDays (action) {
-    const currentDays = this.state.itinerary.days
-    const actions = {
-      add: currentDays + 1,
-      remove: currentDays - 1
-    }
     let newItinerary = this.state.itinerary
-    newItinerary.days = actions[action]
+    const actions = {
+      add: [newItinerary.days + 1, 'addingDay'],
+      remove: [newItinerary.days - 1, 'removingDay']
+    }
+    const typeOfAction = actions[action][1]
+    this.setState({
+      [typeOfAction]: true
+    })
+    // const currentDays = this.state.itinerary.days
+    newItinerary.days = actions[action][0]
     newItinerary = {
       data: newItinerary
     }
@@ -297,9 +314,6 @@ class EditBlogPage extends Component {
       .then(res => {
         if (res.status === 200) {
           this.getItinerary()
-          this.setState({
-            addingDay: false
-          })
         }
         else console.log(res)
       })

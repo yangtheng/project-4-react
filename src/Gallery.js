@@ -21,6 +21,7 @@ class Gallery extends Component {
       var starting = 'https://res.cloudinary.com/dominikphua/image/upload'
       var edit = 'w_600,c_limit'
       var editUrl = starting + '/' + edit + '/' + resize[6] + '/' + resize[7]
+      var id = child.id
       return(
         <Thumbnail src={editUrl} alt={{width: '100%'}} />
         // <Link to={url}>

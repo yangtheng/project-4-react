@@ -15,7 +15,8 @@ class CoverPhotoEditPage extends Component {
       // img: props.itinerary.bannerUrl,
       images: [],
       editingTitle: false,
-      editingImg: false
+      editingImg: false,
+      editingCountry: false,
     }
 
     this.getItinerary = props.getItinerary
@@ -34,6 +35,23 @@ class CoverPhotoEditPage extends Component {
         <Modal.Footer>
           <Button onClick={() => this.closeTitleEditWindow()}>Cancel</Button>
           <Button bsStyle='primary' onClick={() => this.saveTitle()}>Save changes</Button>
+        </Modal.Footer>
+      </Modal>
+    )
+
+    let editCountryWindow = (
+      <Modal show={this.state.editingCountry} onHide={() => this.closeCountryEditWindow()}>
+        <Modal.Header>
+          <Modal.Title>Edit Country</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <input className='form-control' value={this.state.newCountry} type='text' onChange={(e) => this.handleCountryChange(e)} />
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button onClick={() => this.closeCountryEditWindow()}>Cancel</Button>
+          <Button bsStyle='primary' onClick={() => this.saveCountry()}>Save changes</Button>
         </Modal.Footer>
       </Modal>
     )
@@ -59,17 +77,27 @@ class CoverPhotoEditPage extends Component {
 
     return (
       <div style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
+
         <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
-          <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '10px', display: 'inline-block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
+
+          <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '0px', display: 'block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
             <h1 style={{marginLeft: '10px', display: 'inline', color: 'white'}}><strong>{this.state.itinerary.title}</strong></h1>
             <Glyphicon glyph='pencil' style={{fontSize: '25px', marginLeft: '3%', color: 'white'}} />
           </div>
+
+          <div onClick={() => this.showCountryEditWindow()} className='coverPhotoDiv' style={{marginBottom: '10px', display: 'inline-block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
+            <h1 style={{marginLeft: '10px', display: 'inline', color: 'white'}}><strong>{this.state.itinerary.country}</strong></h1>
+            <Glyphicon glyph='pencil' style={{fontSize: '25px', marginLeft: '3%', color: 'white'}} />
+          </div>
+
         </div>
+
         <div onClick={() => this.showImgEditWindow()} className='coverPhotoDiv' style={{margin: '0 0 10px 0', position: 'absolute', right: '0', bottom: '0', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
           <h3 style={{display: 'inline', color: 'white'}}>Edit Cover Photo</h3>
           <Glyphicon glyph='picture' style={{fontSize: '18px', marginLeft: '3%', color: 'white'}} />
         </div>
         {editTitleWindow}
+        {editCountryWindow}
         {editImgWindow}
       </div>
     )
@@ -86,6 +114,8 @@ class CoverPhotoEditPage extends Component {
       itinerary: nextProps.itinerary,
       title: nextProps.itinerary.title,
       newTitle: nextProps.itinerary.title,
+      country: nextProps.itinerary.country,
+      newCountry: nextProps.itinerary.country,
       id: nextProps.itinerary.id
     })
   }
@@ -102,6 +132,12 @@ class CoverPhotoEditPage extends Component {
     })
   }
 
+  handleCountryChange (e) {
+    this.setState({
+      newCountry: e.target.value
+    })
+  }
+
   showTitleEditWindow () {
     this.setState({
       editingTitle: true
@@ -111,6 +147,12 @@ class CoverPhotoEditPage extends Component {
   showImgEditWindow () {
     this.setState({
       editingImg: true
+    })
+  }
+
+  showCountryEditWindow () {
+    this.setState({
+      editingCountry: true
     })
   }
 
@@ -128,13 +170,20 @@ class CoverPhotoEditPage extends Component {
     })
   }
 
+  closeCountryEditWindow () {
+    this.setState({
+      editingCountry: false,
+      newCountry: this.state.country
+    })
+  }
+
   saveTitle () {
     let newItinerary = this.state.itinerary
     newItinerary.title = this.state.newTitle
     newItinerary = {
       data: newItinerary
     }
-    fetch(`${url}/profile/${this.state.id}`,
+    fetch(`${url}/profile/${this.state.itinerary.id}`,
       {
         method: 'PATCH',
         headers: {
@@ -153,6 +202,34 @@ class CoverPhotoEditPage extends Component {
       })
     this.setState({
       editingTitle: false
+    })
+  }
+
+  saveCountry () {
+    let newItinerary = this.state.itinerary
+    newItinerary.country = this.state.newCountry
+    newItinerary = {
+      data: newItinerary
+    }
+    fetch(`${url}/profile/${this.state.itinerary.id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newItinerary)
+      }
+    )
+      .then(res => {
+        if (res.status === 200) {
+          alert('successful!')
+          this.getItinerary()
+        }
+        else console.log(res)
+      })
+    this.setState({
+      editingCountry: false
     })
   }
 
