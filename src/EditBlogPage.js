@@ -60,7 +60,7 @@ class EditBlogPage extends Component {
 
         <Modal.Body>
           <div>
-            <ImageUpload images={[]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
+            <ImageUpload images={this.state.images} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
           </div>
         </Modal.Body>
 
@@ -96,6 +96,12 @@ class EditBlogPage extends Component {
           <label>Content</label>
           <textarea className='form-control' value={this.state.newContent} rows='10' onChange={(e) => this.handleChange(e, 'newContent')} />
         </Modal.Body>
+
+        {/* <Modal.Body>
+          <div>
+            <ImageUpload images={[this.state.images]} updateImage={(updatedImages) => this.updateImage(updatedImages)} />
+          </div>
+        </Modal.Body> */}
 
         <Modal.Footer>
           <Button bsStyle='danger' style={{float: 'left'}} onClick={() => this.saveActivity(this.state.idOfEditedActivity, 'delete')}>Delete activity</Button>
