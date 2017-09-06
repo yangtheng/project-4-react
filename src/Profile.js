@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import AddItineraryForm from './AddItineraryForm'
 import ItineraryBody from './ItineraryBody'
+import {Panel} from 'react-bootstrap'
 
 class Profile extends Component {
   constructor (props) {
@@ -29,10 +30,11 @@ class Profile extends Component {
 
     return (
       <div>
-        <h1>Profile Page</h1>
-        <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()} />
-        <h1>Welcome {this.state.currentUser}</h1>
-        <div className='container'>
+        <div className='container' style={{marginTop: '10vh'}}>
+            <Panel className="col-sm-6" style={{ height: '30vh', position: 'relative', width: '49%', float: 'left', padding:'0', textAlign:'center', marginRight: '1%'}}>
+              <h3>Going somewhere?</h3>
+              <AddItineraryForm token={this.state.token} renderAllItineraries={() => this.renderAllItineraries()} />
+            </Panel>
           {itineraryList}
         </div>
       </div>
