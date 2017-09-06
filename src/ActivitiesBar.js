@@ -52,9 +52,11 @@ class ActivitiesBar extends Component {
   handleScroll (e) {
     // TODO: Refactor
     let arr = this.props.activities.sort((a, b) => a.day - b.day).map(activity => activity.id.toString())
-    let ind = arr.findIndex((elem) => document.getElementById(elem).offsetTop - 50 >= e.srcElement.body.scrollTop)
+    let ind = arr.findIndex((elem) => document.getElementById(elem).offsetTop - 100 >= e.srcElement.body.scrollTop)
     let newArr = arr.map((clicked, index) => index !== arr.length - 1 ? ind - 1 === index : ind === -1)
-    console.log(newArr);
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+      newArr = newArr.map((clicked, index) => index === arr.length - 1)
+    }
 
     this.setState({
       clicked: newArr

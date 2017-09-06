@@ -3,12 +3,15 @@ import Dropzone from 'react-dropzone'
 import sha1 from 'sha1'
 import superagent from 'superagent'
 
+const backendUrl = 'https://project-4-backend.herokuapp.com'
+
 class ImageUpload extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      images: props.images
+      imagesObjs: props.images,
+      images: props.images.map(photo => photo.url)
     }
 
     this.updateImage = props.updateImage
@@ -43,11 +46,36 @@ class ImageUpload extends Component {
         alert(err)
         return
       }
-      console.log('UPLOAD COMPLETE: ' + JSON.stringify(resp.body))
       const uploaded = resp.body
 
       let updatedImages = Object.assign([], this.state.images)
       updatedImages.push(uploaded.secure_url)
+
+      if (this.props.id) {
+        const newPhoto = {
+          activity_id: this.props.id,
+          data: {
+            url: uploaded.secure_url
+          }
+        }
+        fetch(`${backendUrl}/photo`,
+          {
+            method: 'POST',
+            headers: {
+              "Authorization": 'Bearer ' + this.props.token,
+              "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(newPhoto)
+          }
+        ).then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            return res.json()
+          }
+          else alert ('There was an error while uploading ' + uploaded.secure_url)
+        })
+        .then(json => console.log(json))
+      }
 
       this.updateImage(updatedImages)
       this.setState({
@@ -56,12 +84,39 @@ class ImageUpload extends Component {
     })
   }
 
-  removeImage(event) {
+  removeImage(event, image) {
     event.preventDefault()
-    console.log('removeImage: '+ event.target.id)
+    if(this.props.id) {
+      if (!window.confirm('Are you sure?')) return
+    }
 
     let updatedImages = Object.assign([], this.state.images)
     updatedImages.splice(event.target.id, 1)
+
+    if (this.props.id) {
+      const photoIndex = this.state.imagesObjs.findIndex(photo => photo.url === image)
+      const photoId = this.state.imagesObjs[photoIndex].id
+      const deletedPhoto = {
+        photo_id: photoId
+      }
+
+      fetch(`${backendUrl}/photo`,
+        {
+          method: 'DELETE',
+          headers: {
+            "Authorization": 'Bearer ' + this.props.token,
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify(deletedPhoto)
+        }
+      ).then(res => {
+        if(res.status === 200) {
+          console.log('successfully deleted')
+        } else alert ('error deleting')
+        return res.json()
+      })
+      .then(json => console.log(json))
+    }
 
     this.updateImage(updatedImages)
     this.setState({
@@ -74,7 +129,7 @@ class ImageUpload extends Component {
       return (
         <li key={i}>
           <img style={{width:72}} src={image} />
-          <br /><a id={i} onClick={this.removeImage.bind(this)} href='#'>Remove</a>
+          <br /><a id={i} onClick={(event) => this.removeImage(event, image)} href='#'>Remove</a>
         </li>
       )
     })

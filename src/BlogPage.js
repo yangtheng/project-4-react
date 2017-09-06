@@ -32,7 +32,7 @@ class BlogPage extends Component {
         activityBodies.push(<ActivityBody key={activity.id + 9999} activity={activity} photos={photos[photos.findIndex(photo => {
           if (photo[0]) {
             return photo[0].activity_id === activity.id
-          } else return -1
+          } else return false
         })] || []} />)
         activityIndex += 1
       })
@@ -42,7 +42,7 @@ class BlogPage extends Component {
     )} else {
       return (
         <div>
-          <CoverPhoto itinerary={this.state.itinerary} author={this.state.author} />
+          <CoverPhoto itinerary={this.state.itinerary} author={this.state.author} activities={this.state.activities} />
           <div>
             <ActivitiesBar days={this.state.days} activities={this.state.activities} />
             <div style={{width: '80vw', padding: '5px', margin: '3vh 5% 0 0', display: 'inline-block', float: 'right'}}>
@@ -55,6 +55,7 @@ class BlogPage extends Component {
   }
 
   componentDidMount () {
+    window.scrollTo(0, 0)
     fetch(`${url}/blog/${this.state.itinerary_id}`
       // {
       //   method: 'GET',
@@ -68,12 +69,11 @@ class BlogPage extends Component {
       if (res.status === 200) return res.json()
     })
     .then(json => {
-      console.log(json);
       this.setState({
         title: json.requestedBlog.title,
         author: json.name,
         days: json.requestedBlog.days,
-        activities: json.activities,
+        activities: json.activities.sort((a, b) => a.created_at > b.created_at),
         itinerary: json.requestedBlog,
         photos: json.photos,
         loading: false

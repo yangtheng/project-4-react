@@ -27,7 +27,7 @@ class App extends Component {
       <Router>
         <div>
           <Nav token={this.state.token} handleLogout={() => this.handleLogout()} currentUser={this.state.currentUser} />
-          <div style={{margin: '10vh 0 0 0'}}>
+          <div style={{margin: '9vh 0 0 0'}}>
             <Route path='/login' component={
               () => (
                 <Login handleLogin={(token) => this.handleLogin(token)} token={this.state.token} />
@@ -79,7 +79,6 @@ class App extends Component {
       }
   ).then(res => res.json())
    .then(json => {
-     console.log(json)
      this.setState({
        currentUser: json.current_user_name
      })

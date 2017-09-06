@@ -134,7 +134,7 @@ class CoverPhotoEditPage extends Component {
     newItinerary = {
       data: newItinerary
     }
-    fetch(`${url}/profile/${this.state.id}`,
+    fetch(`${url}/profile/${this.state.itinerary.id}`,
       {
         method: 'PATCH',
         headers: {
