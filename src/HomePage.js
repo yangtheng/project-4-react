@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import Gallery from './Gallery'
+import {Grid, Row} from 'react-bootstrap'
+import ItineraryListing from './ItineraryListing'
 
 // const url = 'https://localhost:3001'
 const url = 'https://project-4-backend.herokuapp.com'
@@ -9,16 +10,25 @@ class HomePage extends Component {
     super()
 
     this.state = {
-      images: []
+      itineraries: []
     }
   }
 
   render () {
-    console.log(this.state.images)
+    var boundRenderAllItineraries = () => this.renderAllItineraries()
+    var itineraryList = this.state.itineraries.map((e, index) => {
+      return (
+        <ItineraryListing renderAllItineraries={boundRenderAllItineraries} itinerary={e} />
+      )
+    })
     return (
-      <div>
-        <Gallery images={this.state.images} />
-      </div>
+      <Grid>
+        <Row>
+          <div>
+            {itineraryList}
+          </div>
+        </Row>
+      </Grid>
     )
   }
 
@@ -31,18 +41,17 @@ class HomePage extends Component {
         }
       })
       .then(res => {
+        console.log('Something')
         if(res.status === 200) return res.json()
         else throw new Error('Itinerary not found')
       })
       .then(result => {
-        var imgArr = result.allItineraries.map((e) => {
-          return e
-        })
+        console.log(result)
+        var allItineraries = result.allItineraries
         this.setState({
-          images: imgArr
+          itineraries: allItineraries
+        })
       })
-      console.log('Homepage', this.state.images)
-    })
     .catch(error => console.log(error))
   }
 }
