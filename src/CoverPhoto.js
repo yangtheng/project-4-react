@@ -95,7 +95,7 @@ class CoverPhoto extends Component {
     let copyItineraryBtn, successfulCopyAlert
     if (this.props.token && this.props.currentUser !== this.props.author) {
       copyItineraryBtn = (
-        <Button onClick={() => this.copyItinerary()} disabled={this.state.copyingItinerary} bsStyle='success' bsSize='large'><strong style={{fontSize: '18pt'}}>{this.state.copyingItinerary ? 'Copying Itinerary...' : 'Copy Itinerary'}</strong><Glyphicon glyph='duplicate' style={{fontSize: '18pt', marginLeft: '3%', color: 'white', display: this.state.copyingItinerary ? 'none' : '' }} /></Button>
+        <Button onClick={() => this.copyItinerary()} disabled={this.state.copyingItinerary} bsStyle='success' bsSize='large'><strong style={{fontSize: '18pt'}}>{this.state.copyingItinerary ? 'Copying...' : 'Copy to Bucket'}</strong><Glyphicon glyph='duplicate' style={{fontSize: '18pt', marginLeft: '3%', color: 'white', display: this.state.copyingItinerary ? 'none' : '' }} /></Button>
       )
     }
     if(this.state.successfullyCopied) {

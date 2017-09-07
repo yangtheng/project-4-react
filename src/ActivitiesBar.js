@@ -28,7 +28,7 @@ class ActivitiesBar extends Component {
       let j = i
       activityButtons.push(<h3 key={j} style={{marginTop: '-1vh'}}>Day {j}</h3>)
       this.props.activities.filter(activity => activity.day === j).forEach(activity => {
-        activityButtons.push(<ActivityButton key={activity.id + 9999} id={activity.id.toString()} title={activity.title} clicked={this.state.clicked[activityCount - 1]} />)
+        activityButtons.push(<ActivityButton key={activity.id + 9999} id={activity.id.toString()} place={activity.place} title={activity.title} clicked={this.state.clicked[activityCount - 1]} />)
         activityCount += 1
       })
     }

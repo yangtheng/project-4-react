@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Thumbnail, Col, Button} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import './App.css'
 
 class ItineraryListing extends Component {
   constructor (props) {
@@ -20,16 +21,15 @@ class ItineraryListing extends Component {
     var editUrl = starting + '/' + edit + '/' + resize[6] + '/' + resize[7]
     return (
       <Col key={this.props.itinerary.id} xs={6} md={4}>
-        <Thumbnail src={editUrl} style={{height: '390px'}} alt="242x200">
+        <Link to={url}>
+          <Thumbnail src={editUrl} style={{height: '360px'}} alt="242x200">
           <h4>{this.state.itinerary.title}</h4>
           <h5>{this.state.itinerary.country}</h5>
           <h5>Author: {this.state.author.name}</h5>
           <p>
-            <Link to={url}>
-              <Button bsStyle="primary">View</Button>
-            </Link>
           </p>
         </Thumbnail>
+      </Link>
       </Col>
     )
   }
