@@ -19,7 +19,7 @@ class ItineraryListing extends Component {
     var edit = 'w_600,h_400,c_crop'
     var editUrl = starting + '/' + edit + '/' + resize[6] + '/' + resize[7]
     return (
-      <Col xs={6} md={4}>
+      <Col key={this.props.itinerary.id} xs={6} md={4}>
         <Thumbnail src={editUrl} style={{height: '390px'}} alt="242x200">
           <h4>{this.state.itinerary.title}</h4>
           <h5>{this.state.itinerary.country}</h5>

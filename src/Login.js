@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {
   Redirect
 } from 'react-router-dom'
+import Spinner from './Spinner'
 
 class Login extends Component {
   constructor (props) {
@@ -10,37 +11,52 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      token: this.props.token
+      token: this.props.token,
+      authenticationFail: false,
+      submitting: false
     }
 
     this.handleLogin = this.props.handleLogin
   }
 
   render () {
-    let redirect
+    let redirect, authFailAlert
     if (this.state.token) {
       redirect = (
         <Redirect to='/' />
       )
     }
-    return (
-      <div className='col-sm-6 col-sm-offset-3'>
-        {alert}
-        {redirect}
-        <h1>Login</h1>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <div className='form-group'>
-            <label>Email address</label>
-            <input type='email' value={this.state.email} onChange={(e) => this.handleChange(e, 'email')} className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Enter email' />
-          </div>
-          <div className='form-group'>
-            <label>Password</label>
-            <input type='password' value={this.state.password} onChange={(e) => this.handleChange(e, 'password')} className='form-control' id='exampleInputPassword1' placeholder='Password' />
-          </div>
-          <button type='submit' className='btn btn-primary'>Submit</button>
-        </form>
-      </div>
-    )
+    if (this.state.authenticationFail) {
+      authFailAlert = (
+        <div className='alert alert-warning' role='alert'>
+          <strong>You have entered an invalid email/ password.</strong>
+        </div>
+      )
+    }
+    if (this.state.submitting) {
+      return (
+        <Spinner loading={this.state.loading} />
+      )
+    } else {
+      return (
+        <div className='col-sm-6 col-sm-offset-3'>
+          {redirect}
+          {authFailAlert}
+          <h1>Login</h1>
+          <form onSubmit={(e) => this.handleSubmit(e)}>
+            <div className='form-group'>
+              <label>Email address</label>
+              <input type='email' value={this.state.email} onChange={(e) => this.handleChange(e, 'email')} className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Enter email' />
+            </div>
+            <div className='form-group'>
+              <label>Password</label>
+              <input type='password' value={this.state.password} onChange={(e) => this.handleChange(e, 'password')} className='form-control' id='exampleInputPassword1' placeholder='Password' />
+            </div>
+            <button type='submit' className='btn btn-primary'>Submit</button>
+          </form>
+        </div>
+      )
+    }
   }
 
   handleChange (e, field) {
@@ -51,6 +67,9 @@ class Login extends Component {
 
   handleSubmit (e) {
     e.preventDefault()
+    this.setState({
+      submitting: true
+    })
     const params = {
       grant_type: 'password',
       email: this.state.email,
@@ -67,13 +86,18 @@ class Login extends Component {
       })
       .then(res => {
         if (res.status === 200) return res.json()
-        else throw new Error('error')
+        else throw new Error('Please check your email and password!')
       })
       .then(result => {
         localStorage.setItem('token', result.access_token)
         this.handleLogin(result.access_token)
        })
-      .catch(function (res) { console.log(res) })
+      .catch((res) => {
+        this.setState({
+          authenticationFail: true,
+          submitting: false
+        })
+      })
   }
 }
 

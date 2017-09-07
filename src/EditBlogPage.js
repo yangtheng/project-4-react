@@ -13,8 +13,6 @@ class EditBlogPage extends Component {
     super(props)
 
     this.state = {
-      token: props.token,
-      itineraryId: props.id,
       itinerary: '',
       newItineraryDays: '',
       day: 1,
@@ -126,11 +124,13 @@ class EditBlogPage extends Component {
       }
       const header = <div><strong>{activity.title}</strong><Glyphicon glyph='triangle-bottom' style={{fontSize: '25px', float: 'right'}} /></div>
       return (
-        <Panel style={{margin: '3vh 3vh 0 0'}} bsStyle='info' header={header} key={index} eventKey={index} defaultExpanded>
-          <strong>Location: {activity.place}</strong><br /><br />
-          {activityContent}<br /><br />
-          <Button onClick={() => this.editActivity(activity.id)} bsStyle='info'>Edit activity</Button>
-        </Panel>
+        <PanelGroup key={index} accordion>
+          <Panel style={{margin: '3vh 3vh 0 0'}} bsStyle='info' header={header} key={index} eventKey={index}>
+            <strong>Location: {activity.place}</strong><br /><br />
+            {activityContent}<br /><br />
+            <Button onClick={() => this.editActivity(activity.id)} bsStyle='info'>Edit activity</Button>
+          </Panel>
+        </PanelGroup>
       )
     })
 
@@ -148,7 +148,7 @@ class EditBlogPage extends Component {
     } else {
       return (
         <div>
-          <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.state.token} getItinerary={() => this.getItinerary()} />
+          <CoverPhotoEditPage itinerary={this.state.itinerary} token={this.props.token} getItinerary={() => this.getItinerary()} />
           <div>
             <div style={{width: '13vw', margin: '3vh 1%', display: 'inline-block'}}>
               {dayButtons}
@@ -174,9 +174,7 @@ class EditBlogPage extends Component {
                   </ButtonToolbar>
                 </div>
               </div>
-              <PanelGroup accordion>
-                {activities}
-              </PanelGroup>
+              {activities}
               {addActivityForm}
               {editActivityForm}
             </div>
@@ -197,11 +195,11 @@ class EditBlogPage extends Component {
   }
 
   getItinerary () {
-    fetch(`${url}/profile/${this.state.itineraryId}`,
+    fetch(`${url}/profile/${this.props.id}`,
       {
         method: 'GET',
         headers: {
-          "Authorization": 'Bearer ' + this.state.token,
+          "Authorization": 'Bearer ' + this.props.token,
           "Content-Type": 'application/json'
         }
       })
@@ -296,16 +294,15 @@ class EditBlogPage extends Component {
     this.setState({
       [typeOfAction]: true
     })
-    // const currentDays = this.state.itinerary.days
     newItinerary.days = actions[action][0]
     newItinerary = {
       data: newItinerary
     }
-    fetch(`${url}/profile/${this.state.itineraryId}`,
+    fetch(`${url}/profile/${this.props.id}`,
       {
         method: 'PATCH',
         headers: {
-          'Authorization': 'Bearer ' + this.state.token,
+          'Authorization': 'Bearer ' + this.props.token,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newItinerary)
@@ -321,7 +318,7 @@ class EditBlogPage extends Component {
 
   createActivity () {
     const newActivity = {
-      itinerary_id: this.state.itineraryId,
+      itinerary_id: this.props.id,
       data: {
         title: this.state.newTitle,
         content: this.state.newContent,
@@ -334,7 +331,7 @@ class EditBlogPage extends Component {
       {
         method: 'POST',
         headers: {
-          "Authorization": 'Bearer ' + this.state.token,
+          "Authorization": 'Bearer ' + this.props.token,
           "Content-Type": 'application/json'
         },
         body: JSON.stringify(newActivity)
@@ -346,9 +343,6 @@ class EditBlogPage extends Component {
         }
       })
       .then(result => {
-        console.log(result);
-        console.log(this.state.images);
-
         this.state.images.forEach(photo => {
           const newPhoto = {
             activity_id: result.createdActivity.id,
@@ -360,7 +354,7 @@ class EditBlogPage extends Component {
             {
               method: 'POST',
               headers: {
-                "Authorization": 'Bearer ' + this.state.token,
+                "Authorization": 'Bearer ' + this.props.token,
                 "Content-Type": 'application/json'
               },
               body: JSON.stringify(newPhoto)
@@ -397,7 +391,7 @@ class EditBlogPage extends Component {
         {
           method: 'DELETE',
           headers: {
-            "Authorization": 'Bearer ' + this.state.token,
+            "Authorization": 'Bearer ' + this.props.token,
             "Content-Type": 'application/json'
           },
           body: JSON.stringify(deletedActivity)
@@ -423,7 +417,7 @@ class EditBlogPage extends Component {
         {
           method: 'PATCH',
           headers: {
-            "Authorization": 'Bearer ' + this.state.token,
+            "Authorization": 'Bearer ' + this.props.token,
             "Content-Type": 'application/json'
           },
           body: JSON.stringify(editedActivity)
@@ -454,11 +448,11 @@ class EditBlogPage extends Component {
       data: newItinerary
     }
 
-    fetch(`${url}/profile/${this.state.itineraryId}`,
+    fetch(`${url}/profile/${this.props.id}`,
       {
         method: 'PATCH',
         headers: {
-          "Authorization": 'Bearer ' + this.state.token,
+          "Authorization": 'Bearer ' + this.props.token,
           "Content-Type": 'application/json'
         },
         body: JSON.stringify(newItinerary)
@@ -483,11 +477,11 @@ class EditBlogPage extends Component {
       data: newItinerary
     }
 
-    fetch(`${url}/profile/${this.state.itineraryId}`,
+    fetch(`${url}/profile/${this.props.id}`,
       {
         method: 'PATCH',
         headers: {
-          "Authorization": 'Bearer ' + this.state.token,
+          "Authorization": 'Bearer ' + this.props.token,
           "Content-Type": 'application/json'
         },
         body: JSON.stringify(newItinerary)

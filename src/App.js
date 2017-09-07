@@ -8,14 +8,16 @@ import Nav from './Nav'
 import HomePage from './HomePage'
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
 import './App.css'
+
+const token = localStorage.getItem('token')
 
 class App extends Component {
   constructor (props) {
     super(props)
-    const token = localStorage.getItem('token')
     this.state = {
       token,
       currentUser: null
@@ -23,9 +25,11 @@ class App extends Component {
   }
 
   render () {
+    let redirect = this.state.redirectHome ? <Redirect to='/' /> : null
     return (
       <Router>
         <div>
+          {redirect}
           <Nav token={this.state.token} handleLogout={() => this.handleLogout()} currentUser={this.state.currentUser} />
           <div style={{margin: '9vh 0 0 0'}}>
             <Route path='/login' component={
@@ -40,7 +44,7 @@ class App extends Component {
             } />
             <Route path='/blog/:id' component={
               ({match}) => (
-                <BlogPage id={match.params.id} />
+                <BlogPage id={match.params.id} token={this.state.token} currentUser={this.state.currentUser} />
               )
             } />
             <Route path='/profile' component={
@@ -65,7 +69,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    this.getUser()
+    if(token) this.getUser()
   }
 
   getUser () {
@@ -90,8 +94,14 @@ class App extends Component {
     localStorage.removeItem('token')
     this.setState({
       token: null,
-      currentUser: null
+      currentUser: null,
+      redirectHome: true
     })
+    setTimeout(() => {
+      this.setState({
+        redirectHome: false
+      })
+    }, 200)
   }
 
   handleLogin (token) {

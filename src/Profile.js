@@ -60,22 +60,8 @@ class Profile extends Component {
   }
 
   componentDidMount () {
-    return fetch('https://project-4-backend.herokuapp.com/profile',
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + this.state.token,
-          'Content-Type': 'application/json'
-        }
-      } ) // close fetch
-    .then(function (response) { return response.json() })
-    .then((json) => this.setState({
-      itineraries: json.allItineraries,
-      loading: false
-    }))
-    .catch(function (error) { console.log('error', error) })
-  }
-
-} // close class
+    this.renderAllItineraries()
+  } // close class
+}
 
 export default Profile
