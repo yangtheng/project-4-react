@@ -192,6 +192,7 @@ class EditBlogPage extends Component {
 
   componentDidMount () {
     this.getItinerary()
+    window.scrollTo(0, 0)
   }
 
   getItinerary () {

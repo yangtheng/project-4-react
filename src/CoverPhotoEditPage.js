@@ -77,7 +77,7 @@ class CoverPhotoEditPage extends Component {
     )
 
     return (
-      <div style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
+      <div style={{backgroundImage: 'url(' + this.state.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: this.state.itinerary.bannerUrl ? '85vh' : '15vh', position: 'relative', width: '100%', float: 'right'}}>
 
         <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
 
