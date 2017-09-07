@@ -19,11 +19,26 @@ Features
 
 * When an itinerary is published, it gets converted into a blog post.
 
-* Users are able to browse published travel posts from other users
+* Users are able to browse published travel posts from other users.
+
+* Users are able to clone itineraries of travel posts that they like.
 
 Wireframes / ERD
 ================================
 
+Overview of Interaction Between Front-end Application and Back-end API
+
+![Backend API](./public/pictures/back_api.jpg?raw=true "Optional Title")
+
+ERD
+
+![ERD](./public/pictures/erd.jpg?raw=true "Optional Title")
+
+Wireframe
+
+![Wireframe 1](./public/pictures/wireframe_1.jpg?raw=true "Optional Title")
+
+![Wireframe 2](./public/pictures/wireframe_2.jpg?raw=true "Optional Title")
 
 Querying the API
 ================================
@@ -33,7 +48,7 @@ All other API requests will require authentication in the form of a JWT in the r
 
 API endpoints:
 
-<insert picture here of endpoints>
+![API Endpoints](./public/pictures/api_endpoint.jpg?raw=true "Optional Title")
 
 Our backend API requires requests to take the following form:
 
@@ -87,13 +102,20 @@ and will return a JSON object containing requested itineraries/activities/photos
 Integrating Cloudinary
 ================================
 
-Images can be added to activities by first uploading them to Cloudinary.
+Images can be added to activities by first POST request to Cloudinary using the superagent gem with its attach function.
 
-Please configure the front end server with your own Cloudinary account details.
+```
+let uploadRequest = superagent.post(url)
+uploadRequest.attach('file', image)
 
-Upon successful upload to the Cloudinary server, the URL of the uploaded photo is returned to the front-end server.
+// Where URL is the assigned URL for the account
+```
 
-That URL is then used in a post request to the backend API to save a new photo.
+Upon successful upload to the Cloudinary server, the URL of the uploaded photo is returned, and we use the returned information to set it into an assigned state on our front-end application.
+
+The URL is then saved to the backend API whenever a POST request is made to our backend API.
+
+With Cloudinary's functions, when we make any GET request to retrieve the image URL, we manipulate the URL to return the photo of a specific size to fit the unique needs of different pages.
 
 Bugs / Improvements
 ================================
