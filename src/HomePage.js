@@ -10,7 +10,8 @@ class HomePage extends Component {
     super()
 
     this.state = {
-      itineraries: []
+      itineraries: [],
+      users: []
     }
   }
 
@@ -18,7 +19,7 @@ class HomePage extends Component {
     var boundRenderAllItineraries = () => this.renderAllItineraries()
     var itineraryList = this.state.itineraries.map((e, index) => {
       return (
-        <ItineraryListing renderAllItineraries={boundRenderAllItineraries} itinerary={e} />
+        <ItineraryListing author={this.state.users[index]} renderAllItineraries={boundRenderAllItineraries} itinerary={e} />
       )
     })
     return (
@@ -49,7 +50,8 @@ class HomePage extends Component {
         console.log(result)
         var allItineraries = result.allItineraries
         this.setState({
-          itineraries: allItineraries
+          itineraries: allItineraries,
+          users: result.owners
         })
       })
     .catch(error => console.log(error))
