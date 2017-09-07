@@ -31,7 +31,7 @@ class Navigation extends Component {
       <Navbar fixedTop collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to='/'>Undecided Company Name</Link>
+            <Link to='/'>Barket List</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
