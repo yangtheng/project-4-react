@@ -31,7 +31,7 @@ class App extends Component {
         <div>
           {redirect}
           <Nav token={this.state.token} handleLogout={() => this.handleLogout()} currentUser={this.state.currentUser} />
-          <div style={{margin: '8vh 0 0 0'}}>
+          <div style={{margin: '50px 0 0 0'}}>
             <Route path='/login' component={
               () => (
                 <Login handleLogin={(token) => this.handleLogin(token)} token={this.state.token} />
