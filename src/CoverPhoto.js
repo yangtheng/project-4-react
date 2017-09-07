@@ -46,6 +46,14 @@ class CoverPhoto extends Component {
       .then(result => {
         console.log(result);
         const newItineraryId = result.createdItinerary.id
+        if(!this.props.activities.length) {
+          this.setState({
+            copyingItinerary: false,
+            successfullyCopied: true,
+            newItineraryId
+          })
+          return
+        }
         this.props.activities.forEach((activity, index) => {
           const newActivity = {
             itinerary_id: newItineraryId,
