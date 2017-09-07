@@ -121,6 +121,10 @@ Built With
 
 * API testing with Postman
 
+* UX enhancements with the following npm modules:
+    * react-scroll -> for smooth-scrolling on view blog page
+    * react-spinner -> for displaying a spinner as pages load
+    * react-router -> for front-end routes and redirects
 
 Team
 ================================

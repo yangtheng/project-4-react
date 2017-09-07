@@ -102,7 +102,8 @@ class AddItineraryForm extends Component {
       data: {
         title: this.state.title,
         country: this.state.country,
-        bannerUrl: this.state.images[0]
+        bannerUrl: this.state.images[0],
+        days: 1
       }
     }
 

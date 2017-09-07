@@ -44,7 +44,7 @@ class App extends Component {
             } />
             <Route path='/blog/:id' component={
               ({match}) => (
-                <BlogPage id={match.params.id} token={this.state.token} />
+                <BlogPage id={match.params.id} token={this.state.token} currentUser={this.state.currentUser} />
               )
             } />
             <Route path='/profile' component={

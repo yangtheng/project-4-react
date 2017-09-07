@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
-import {Image, Button, Glyphicon} from 'react-bootstrap'
+import {Image, Button, Glyphicon, Modal} from 'react-bootstrap'
+import {
+  Link
+} from 'react-router-dom'
 
 
 class CoverPhoto extends Component {
@@ -7,7 +10,9 @@ class CoverPhoto extends Component {
     super(props)
 
     this.state = {
-      copyingItinerary: false
+      copyingItinerary: false,
+      successfullyCopied: false,
+      newItineraryId: ''
     }
   }
 
@@ -19,6 +24,7 @@ class CoverPhoto extends Component {
       data: {
         title: this.props.itinerary.title,
         country: this.props.itinerary.country,
+        days: this.props.itinerary.days,
         bannerUrl: ''
       }
     }
@@ -64,9 +70,11 @@ class CoverPhoto extends Component {
               if (res.status === 200) {
                 if (index === this.props.activities.length - 1) {
                   this.setState({
-                    copyingItinerary: false
+                    copyingItinerary: false,
+                    successfullyCopied: true,
+                    newItineraryId
                   })
-                  alert('Successfully copied!')
+                  // alert('Successfully copied!')
                 }
                 return res.json()
               }
@@ -76,22 +84,48 @@ class CoverPhoto extends Component {
       .catch(err => console.log('there is an an error: ', err))
   }
 
+  // closeSuccessfullyCopied () {
+  //   this.setState({
+  //     successfullyCopied: false,
+  //     newItineraryId: ''
+  //   })
+  // }
+
   render () {
-    let copyItineraryBtn
-    if (this.props.token) {
+    let copyItineraryBtn, successfulCopyAlert
+    if (this.props.token && this.props.currentUser !== this.props.author) {
       copyItineraryBtn = (
         <Button onClick={() => this.copyItinerary()} disabled={this.state.copyingItinerary} bsStyle='success' bsSize='large'><strong style={{fontSize: '18pt'}}>{this.state.copyingItinerary ? 'Copying Itinerary...' : 'Copy Itinerary'}</strong><Glyphicon glyph='duplicate' style={{fontSize: '18pt', marginLeft: '3%', color: 'white', display: this.state.copyingItinerary ? 'none' : '' }} /></Button>
       )
     }
-    return (
-      <div style={ {backgroundImage: 'url(' + this.props.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
-        <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
-          <h1 style={{margin: '10px 0 0 10px', color: 'white'}}><strong>{this.props.itinerary.title}</strong></h1>
-          <h3 style={{margin: '10px 0 0 10px', display: 'inline', color: 'white'}}>By: {this.props.author}</h3>
-          {/* <Image src='/profilepic.jpg' circle style={{height: '30px', width: '30px', margin: '0 0 10px 10px'}} /> */}
+    if(this.state.successfullyCopied) {
+      successfulCopyAlert = (
+        <div className='alert alert-success' role='alert'>
+          <strong>Itinerary successfully copied!!</strong> Click <Link className='alert-link' to={'/edit-blogpage/' + this.state.newItineraryId}>here</Link> to view the copied Itinerary!
         </div>
-        <div style={{margin: '0 0 10px 0', position: 'absolute', right: '0', bottom: '0', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
-          {/* {copyItineraryBtn} */}
+      )
+    }
+    return (
+      <div>
+        {/* <Modal style={{marginTop: '20vh'}} show={this.state.successfullyCopied} onHide={() => this.closeSuccessfullyCopied()}>
+          <Modal.Body>
+            <h2>Itinerary successfully copied! Click <Link to={'/edit-blogpage/' + this.state.newItineraryId}>here</Link> to view the copied Itinerary!</h2>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button bsStyle='primary' onClick={() => this.closeSuccessfullyCopied()}>Close</Button>
+          </Modal.Footer>
+        </Modal> */}
+        <div style={ {backgroundImage: 'url(' + this.props.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
+          {successfulCopyAlert}
+          <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
+            <h1 style={{margin: '10px 0 0 10px', color: 'white'}}><strong>{this.props.itinerary.title}</strong></h1>
+            <h3 style={{margin: '10px 0 0 10px', display: 'inline', color: 'white'}}>By: {this.props.author}</h3>
+            {/* <Image src='/profilepic.jpg' circle style={{height: '30px', width: '30px', margin: '0 0 10px 10px'}} /> */}
+          </div>
+          <div style={{margin: '0 0 10px 0', position: 'absolute', right: '0', bottom: '0', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
+            {copyItineraryBtn}
+          </div>
         </div>
       </div>
     )

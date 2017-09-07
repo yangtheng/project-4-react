@@ -37,12 +37,14 @@ class BlogPage extends Component {
         activityIndex += 1
       })
     }
-    if (this.state.loading) {return (
-      <Spinner loading={this.state.loading} />
-    )} else {
+    if (this.state.loading || (this.props.token && !this.props.currentUser)) {
+      return (
+        <Spinner loading={this.state.loading || (this.props.token && !this.props.currentUser)} />
+      )
+    } else {
       return (
         <div>
-          <CoverPhoto token={this.props.token} itinerary={this.state.itinerary} author={this.state.author} activities={this.state.activities} />
+          <CoverPhoto token={this.props.token} currentUser={this.props.currentUser} itinerary={this.state.itinerary} author={this.state.author} activities={this.state.activities} />
           <div>
             <ActivitiesBar days={this.state.days} activities={this.state.activities} />
             <div style={{width: '75vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right'}}>
