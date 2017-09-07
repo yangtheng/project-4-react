@@ -100,7 +100,7 @@ class CoverPhoto extends Component {
     }
     if(this.state.successfullyCopied) {
       successfulCopyAlert = (
-        <Alert bsStyle="success" onDismiss={() => this.closeSuccessfullyCopied()}>
+        <Alert style={{position: 'fixed', width: '100%', zIndex: '9999', marginTop:'-1vh'}} bsStyle="success" onDismiss={() => this.closeSuccessfullyCopied()}>
           <strong>Itinerary successfully copied!!</strong> Click <Link className='alert-link' to={'/edit-blogpage/' + this.state.newItineraryId}>here</Link> to view the copied Itinerary!
         </Alert>
       )
