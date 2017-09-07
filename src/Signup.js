@@ -21,7 +21,7 @@ class Signup extends Component {
     if (this.state.signedUp) {
       alert = (
         <div className='alert alert-success' role='alert'>
-          <strong>You have signed up successfully!</strong> Click <Link to='/login'>here</Link> to login.
+          <strong>You have signed up successfully!</strong> Click <Link className='alert-link' to='/login'>here</Link> to login.
         </div>
       )
     }

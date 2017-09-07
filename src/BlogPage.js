@@ -42,10 +42,10 @@ class BlogPage extends Component {
     )} else {
       return (
         <div>
-          <CoverPhoto itinerary={this.state.itinerary} author={this.state.author} activities={this.state.activities} />
+          <CoverPhoto token={this.props.token} itinerary={this.state.itinerary} author={this.state.author} activities={this.state.activities} />
           <div>
             <ActivitiesBar days={this.state.days} activities={this.state.activities} />
-            <div style={{width: '80vw', padding: '5px', margin: '3vh 5% 0 0', display: 'inline-block', float: 'right'}}>
+            <div style={{width: '75vw', padding: '5px', margin: '3vh 0 0 0', display: 'inline-block', float: 'right'}}>
               {activityBodies}
             </div>
           </div>

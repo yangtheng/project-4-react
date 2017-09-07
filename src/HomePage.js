@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Grid, Row} from 'react-bootstrap'
 import ItineraryListing from './ItineraryListing'
+import Spinner from './Spinner'
 
 // const url = 'https://localhost:3001'
 const url = 'https://project-4-backend.herokuapp.com'
@@ -10,26 +11,32 @@ class HomePage extends Component {
     super()
 
     this.state = {
-      itineraries: []
+      itineraries: [],
+      loading: true
     }
   }
 
   render () {
-    var boundRenderAllItineraries = () => this.renderAllItineraries()
-    var itineraryList = this.state.itineraries.map((e, index) => {
+    const itineraryList = this.state.itineraries.map((e, index) => {
       return (
-        <ItineraryListing renderAllItineraries={boundRenderAllItineraries} itinerary={e} />
+        <ItineraryListing key={e.id} itinerary={e} />
       )
     })
-    return (
-      <Grid>
-        <Row>
-          <div>
-            {itineraryList}
-          </div>
-        </Row>
-      </Grid>
-    )
+    if (this.state.loading) {
+      return (
+        <Spinner loading={this.state.loading} />
+      )
+    } else {
+      return (
+        <Grid>
+          <Row>
+            <div>
+              {itineraryList}
+            </div>
+          </Row>
+        </Grid>
+      )
+    }    
   }
 
   componentDidMount () {
@@ -41,15 +48,14 @@ class HomePage extends Component {
         }
       })
       .then(res => {
-        console.log('Something')
         if(res.status === 200) return res.json()
         else throw new Error('Itinerary not found')
       })
       .then(result => {
-        console.log(result)
-        var allItineraries = result.allItineraries
+        const allItineraries = result.allItineraries
         this.setState({
-          itineraries: allItineraries
+          itineraries: allItineraries,
+          loading: false
         })
       })
     .catch(error => console.log(error))
