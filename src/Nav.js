@@ -36,7 +36,7 @@ class Navigation extends Component {
       <Navbar fixedTop collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link style={{margin: '-2vh 0 0 -6vw'}} to='/'><img src='https://image.flaticon.com/icons/svg/63/63998.svg' style={{height: '7vh', width: '7vh', display:'inline'}}/></Link>
+            <Link style={{margin: '-2vh 0 0 -6vw'}} to='/'><img src='https://image.flaticon.com/icons/svg/63/63998.svg' style={{height: '6vh', width: '6vh', display:'inline'}}/></Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
