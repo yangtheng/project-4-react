@@ -12,11 +12,12 @@ class CoverPhotoEditPage extends Component {
     this.state = {
       token: props.token,
       itinerary: props.itinerary,
-      // img: props.itinerary.bannerUrl,
       images: [],
       editingTitle: false,
       editingImg: false,
       editingCountry: false,
+      newTitle: props.itinerary.title,
+      newCountry: props.itinerary.country
     }
 
     this.getItinerary = props.getItinerary
@@ -80,9 +81,11 @@ class CoverPhotoEditPage extends Component {
 
         <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
 
-          <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '0px', display: 'block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
-            <h1 style={{marginLeft: '10px', display: 'inline', color: 'white'}}><strong>{this.state.itinerary.title}</strong></h1>
-            <Glyphicon glyph='pencil' style={{fontSize: '25px', marginLeft: '3%', color: 'white'}} />
+          <div>
+            <div onClick={() => this.showTitleEditWindow()} className='coverPhotoDiv' style={{marginBottom: '0px', display: 'inline-block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>
+              <h1 style={{marginLeft: '10px', display: 'inline', color: 'white'}}><strong>{this.state.itinerary.title}</strong></h1>
+              <Glyphicon glyph='pencil' style={{fontSize: '25px', marginLeft: '3%', color: 'white'}} />
+            </div>
           </div>
 
           <div onClick={() => this.showCountryEditWindow()} className='coverPhotoDiv' style={{marginBottom: '10px', display: 'inline-block', whiteSpace: 'nowrap', 'paddingRight': '1%'}}>

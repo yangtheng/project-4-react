@@ -40,7 +40,6 @@ class Navigation extends Component {
             {profileLink}
           </Nav>
           <Nav pullRight>
-            {signupLink}
             {loginLink}
             {logoutLink}
             {signupLink}

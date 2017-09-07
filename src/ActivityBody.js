@@ -22,11 +22,19 @@ class ActivityBody extends Component {
         )
       })
     }
+    let carousel
+    if (photos.length) {
+      carousel = (
+        <div>
+          <Carousel style={{width: '50%', margin: '0 auto'}}>
+            {photos}
+          </Carousel><br /><br />
+        </div>
+      )
+    }
     return (
       <div id={this.props.activity.id}>
-        <Carousel style={{width: '50%', margin: '0 auto'}}>
-          {photos}
-        </Carousel><br /><br />
+        {carousel}
         <div style={{maxWidth: '50vw', margin: '0 auto 3vh auto'}}>
           <p style={{textAlign: 'justify'}}>{activityContent}</p>
         </div>

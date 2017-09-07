@@ -43,7 +43,7 @@ class ItineraryBody extends Component {
       .then(function (response) { return response.json() })
       .then(res => {
         if (res.status === 200) {
-          alert('Successfully deleted!')
+          // alert('Successfully deleted!')
           this.renderAllItineraries()
         }
         return res.json()
