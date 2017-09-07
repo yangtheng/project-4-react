@@ -9,7 +9,7 @@ class AddItineraryForm extends Component {
     this.state = {
       token: props.token,
       addingItinerary: false,
-      successfulCreate: false,
+      // successfulCreate: false,
       title: '',
       country: '',
       images: []
@@ -33,18 +33,17 @@ class AddItineraryForm extends Component {
     })
   }
 
-  closeSuccessfulCreate () {
-    this.setState({
-      successfulCreate: false
-    })
-  }
-
+  // closeSuccessfulCreate () {
+  //   this.setState({
+  //     successfulCreate: false
+  //   })
+  // }
 
   render () {
     return (
       <div>
         <Button onClick={() => this.openAddItineraryWindow()} bsStyle='success' bsSize='large' block style={{margin: '5vh auto'}}>Add new itinerary</Button>
-        <Modal style={{marginTop: '20vh'}} show={this.state.successfulCreate} onHide={() => this.closeSuccessfulCreate()}>
+        {/* <Modal style={{marginTop: '20vh'}} show={this.state.successfulCreate} onHide={() => this.closeSuccessfulCreate()}>
           <Modal.Body>
             <h2>Itinerary successfully created!</h2>
           </Modal.Body>
@@ -52,7 +51,7 @@ class AddItineraryForm extends Component {
           <Modal.Footer>
             <Button bsStyle='primary' onClick={() => this.closeSuccessfulCreate()}>Ok</Button>
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
         <Modal show={this.state.addingItinerary} onHide={() => this.closeAddItineraryWindow()}>
           <Modal.Header>
@@ -119,9 +118,9 @@ class AddItineraryForm extends Component {
       .then(res => {
         if (res.status === 200) {
           // alert('Successfully created!')
-          this.setState({
-            successfulCreate: true
-          })
+          // this.setState({
+          //   successfulCreate: true
+          // })
           this.renderAllItineraries()
         }
         return res.json()

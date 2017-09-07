@@ -58,15 +58,7 @@ class BlogPage extends Component {
 
   componentDidMount () {
     window.scrollTo(0, 0)
-    fetch(`${url}/blog/${this.state.itinerary_id}`
-      // {
-      //   method: 'GET',
-      //   headers: {
-      //     'Authorization': 'Bearer ' + this.state.token,
-      //     'Content-Type': 'application/json'
-      //   }
-      // }
-    )
+    fetch(`${url}/blog/${this.state.itinerary_id}`)
     .then(res => {
       if (res.status === 200) return res.json()
     })

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Image, Button, Glyphicon, Modal} from 'react-bootstrap'
+import {Image, Button, Glyphicon, Modal, Alert} from 'react-bootstrap'
 import {
   Link
 } from 'react-router-dom'
@@ -84,12 +84,12 @@ class CoverPhoto extends Component {
       .catch(err => console.log('there is an an error: ', err))
   }
 
-  // closeSuccessfullyCopied () {
-  //   this.setState({
-  //     successfullyCopied: false,
-  //     newItineraryId: ''
-  //   })
-  // }
+  closeSuccessfullyCopied () {
+    this.setState({
+      successfullyCopied: false,
+      newItineraryId: ''
+    })
+  }
 
   render () {
     let copyItineraryBtn, successfulCopyAlert
@@ -100,9 +100,9 @@ class CoverPhoto extends Component {
     }
     if(this.state.successfullyCopied) {
       successfulCopyAlert = (
-        <div className='alert alert-success' role='alert'>
+        <Alert bsStyle="success" onDismiss={() => this.closeSuccessfullyCopied()}>
           <strong>Itinerary successfully copied!!</strong> Click <Link className='alert-link' to={'/edit-blogpage/' + this.state.newItineraryId}>here</Link> to view the copied Itinerary!
-        </div>
+        </Alert>
       )
     }
     return (

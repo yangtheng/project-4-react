@@ -20,7 +20,7 @@ class HomePage extends Component {
   render () {
     const itineraryList = this.state.itineraries.map((e, index) => {
       return (
-        <ItineraryListing key={e.id} author={this.state.users[index]} renderAllItineraries={boundRenderAllItineraries} itinerary={e} />
+        <ItineraryListing key={e.id} author={this.state.users[index]} itinerary={e} />
       )
     })
     if (this.state.loading) {
@@ -37,7 +37,7 @@ class HomePage extends Component {
           </Row>
         </Grid>
       )
-    }    
+    }
   }
 
   componentDidMount () {
