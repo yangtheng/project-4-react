@@ -29,13 +29,14 @@ class HomePage extends Component {
       )
     } else {
       return (
-        <Grid>
-          <Row>
-            <div>
-              {itineraryList}
-            </div>
-          </Row>
-        </Grid>
+          <Grid>
+            <h1>Featured</h1>
+            <Row>
+              <div>
+                {itineraryList}
+              </div>
+            </Row>
+          </Grid>
       )
     }
   }
