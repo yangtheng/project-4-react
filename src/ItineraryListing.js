@@ -15,14 +15,16 @@ class ItineraryListing extends Component {
 
   render () {
     var url = '/blog/' + this.state.itinerary.id
-    var resize = this.state.itinerary.bannerUrl.split('/')
-    var starting = 'https://res.cloudinary.com/dominikphua/image/upload'
-    var edit = 'w_600,h_400,c_crop'
-    var editUrl = starting + '/' + edit + '/' + resize[6] + '/' + resize[7]
+    if(this.state.itinerary.bannerUrl) {
+      var resize = this.state.itinerary.bannerUrl.split('/')
+      var starting = 'https://res.cloudinary.com/dominikphua/image/upload'
+      var edit = 'w_600,h_400,c_crop'
+      var editUrl = starting + '/' + edit + '/' + resize[6] + '/' + resize[7]
+    }
     return (
       <Col key={this.props.itinerary.id} xs={6} md={4}>
         <Link to={url}>
-          <Thumbnail src={editUrl} style={{height: '360px'}} alt="242x200">
+          <Thumbnail src={editUrl || ''} style={{height: '360px'}} alt="242x200">
           <h4>{this.state.itinerary.title}</h4>
           <h5>{this.state.itinerary.country}</h5>
           <h5>Author: {this.state.author.name}</h5>

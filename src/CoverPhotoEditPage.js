@@ -243,7 +243,7 @@ class CoverPhotoEditPage extends Component {
     })
 
     let newItinerary = this.state.itinerary
-    newItinerary.bannerUrl = this.state.images[0]
+    newItinerary.bannerUrl = this.state.images[0] || ''
     newItinerary = {
       data: newItinerary
     }
