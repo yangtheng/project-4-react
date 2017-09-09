@@ -14,13 +14,14 @@ import {
 import './App.css'
 
 const token = localStorage.getItem('token')
+const currentUser = localStorage.getItem('userName')
 
 class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
       token,
-      currentUser: null
+      currentUser
     }
   }
 
@@ -69,7 +70,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    if(token) this.getUser()
+    // if(token) this.getUser()
   }
 
   getUser () {
@@ -86,6 +87,7 @@ class App extends Component {
      this.setState({
        currentUser: json.current_user_name
      })
+     localStorage.setItem('userName', json.current_user_name)
    })
    .catch(error => console.log(error))
   }
@@ -109,6 +111,7 @@ class App extends Component {
       token
     })
     this.getUser()
+
   }
 }
 
