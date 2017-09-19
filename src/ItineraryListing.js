@@ -24,7 +24,7 @@ class ItineraryListing extends Component {
     return (
       <Col key={this.props.itinerary.id} xs={6} md={4}>
         <Link to={url}>
-          <Thumbnail src={editUrl || ''} style={{height: '360px'}} alt="242x200">
+          <Thumbnail src={editUrl || 'https://erconsult.com.au/wp-content/uploads/2015/04/placeholder-600x400.png'} style={{height: '360px'}} alt="242x200">
           <h4>{this.state.itinerary.title}</h4>
           <h5>{this.state.itinerary.country}</h5>
           <h5>Author: {this.state.author.name}</h5>

@@ -13,8 +13,8 @@ import {
 } from 'react-router-dom'
 import './App.css'
 
-const token = localStorage.getItem('token')
-const currentUser = localStorage.getItem('userName')
+const token = localStorage.getItem('bucketToken')
+const currentUser = localStorage.getItem('bucketUserName')
 
 class App extends Component {
   constructor (props) {
@@ -70,7 +70,7 @@ class App extends Component {
   }
 
   componentDidMount () {
-    // if(token) this.getUser()
+    if(!this.state.currentUser && this.state.token) this.getUser()
   }
 
   getUser () {
@@ -87,13 +87,13 @@ class App extends Component {
      this.setState({
        currentUser: json.current_user_name
      })
-     localStorage.setItem('userName', json.current_user_name)
+     localStorage.setItem('bucketUserName', json.current_user_name)
    })
    .catch(error => console.log(error))
   }
 
   handleLogout () {
-    localStorage.removeItem('token')
+    localStorage.removeItem('bucketToken')
     this.setState({
       token: null,
       currentUser: null,

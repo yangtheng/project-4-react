@@ -124,7 +124,7 @@ class CoverPhoto extends Component {
             <Button bsStyle='primary' onClick={() => this.closeSuccessfullyCopied()}>Close</Button>
           </Modal.Footer>
         </Modal> */}
-        <div style={ {backgroundImage: 'url(' + this.props.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
+        <div id='coverPhoto' style={ {backgroundImage: 'url(' + this.props.itinerary.bannerUrl + ')', backgroundSize: 'cover', height: '85vh', position: 'relative', width: '100%', float: 'right'}}>
           {successfulCopyAlert}
           <div style={{position: 'absolute', left: '0', bottom: '0', paddingTop: '20vh', background: 'linear-gradient(to bottom, rgba(0,0,0,0), black', width: '100%'}}>
             <h1 style={{margin: '10px 0 0 10px', color: 'white'}}><strong>{this.props.itinerary.title}</strong></h1>

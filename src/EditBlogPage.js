@@ -292,13 +292,13 @@ class EditBlogPage extends Component {
       remove: [newItinerary.days - 1, 'removingDay']
     }
     const typeOfAction = actions[action][1]
-    this.setState({
-      [typeOfAction]: true
-    })
     newItinerary.days = actions[action][0]
     newItinerary = {
       data: newItinerary
     }
+    this.setState({
+      [typeOfAction]: true
+    })
     fetch(`${url}/profile/${this.props.id}`,
       {
         method: 'PATCH',

@@ -54,7 +54,7 @@ class ActivitiesBar extends Component {
     let arr = this.props.activities.sort((a, b) => a.day - b.day).map(activity => activity.id.toString())
     let ind = arr.findIndex((elem) => document.getElementById(elem).offsetTop - 100 >= e.srcElement.body.scrollTop)
     let newArr = arr.map((clicked, index) => index !== arr.length - 1 ? ind - 1 === index : ind === -1)
-    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && e.srcElement.body.scrollTop > document.getElementById('coverPhoto').offsetHeight) {
       newArr = newArr.map((clicked, index) => index === arr.length - 1)
     }
 

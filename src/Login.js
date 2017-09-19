@@ -89,7 +89,7 @@ class Login extends Component {
         else throw new Error('Please check your email and password!')
       })
       .then(result => {
-        localStorage.setItem('token', result.access_token)
+        localStorage.setItem('bucketToken', result.access_token)
         this.handleLogin(result.access_token)
        })
       .catch((res) => {
